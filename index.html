@@ -521,6 +521,29 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .f-grid{grid-template-columns:1.4fr 1fr 1fr 1.2fr;gap:40px}
   .hero-trust{padding-bottom:0}
 }
+/* ---------- laptop / desktop: 1440px container ---------- */
+@media (min-width:1200px){
+  :root{--wrap:1440px;--pad:32px}
+  .hero-media .ph{max-height:620px}
+  .about-list{max-width:64ch}
+  .contact-card{max-width:780px}
+}
+
+/* ---------- large screens: 1880px container ---------- */
+@media (min-width:1920px){
+  :root{--wrap:1880px;--pad:40px}
+  h1{font-size:4.2rem}
+  h2{font-size:3.1rem}
+  .hero .hero-inner{gap:76px}
+  .hero-media .ph{max-height:700px}
+  .about-wrap{gap:76px}
+  .about-media .sq{aspect-ratio:4/3}
+  .team .ph{max-height:560px}
+  .svc-grid{gap:26px}
+  .gallery{gap:18px}
+  .faq-wrap{gap:84px}
+  .contact-grid{gap:72px}
+}
 </style>
 </head>
 <body>
