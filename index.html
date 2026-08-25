@@ -319,13 +319,14 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
    BRANDS STRIP — scrolls right to left
    ============================================================ */
 .brands-band{
-  background:#0F1218;
+  background:linear-gradient(180deg,#F7F1EC 0%,#F4EEE9 100%);
+  border-bottom:1px solid var(--line);
   padding:clamp(34px,5vw,58px) 0;overflow:hidden;
 }
 .brands-label{
   text-align:center;font-family:'Outfit',sans-serif;font-weight:700;
   font-size:clamp(.72rem,2.4vw,.82rem);letter-spacing:.17em;text-transform:uppercase;
-  color:#7B8494;margin-bottom:clamp(22px,3.5vw,36px);
+  color:#9A8F88;margin-bottom:clamp(22px,3.5vw,36px);
 }
 .bm{
   position:relative;overflow:hidden;
@@ -341,17 +342,17 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
   width:clamp(190px,26vw,300px);height:clamp(68px,9vw,104px);
   padding:0 clamp(18px,3vw,38px);
 }
-/* the six files are a mix of dark and white artwork — inverting them all to
-   white is the only way every brand reads on the dark band */
+/* the six files are a mix of dark and white artwork, so they are flattened to
+   one silhouette — otherwise the white ones vanish on a light band */
 .bm-item img{
   max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
-  filter:brightness(0) invert(1);opacity:0;transition:opacity .35s ease;
+  filter:brightness(0);opacity:0;transition:opacity .35s ease;
 }
-.bm-item img.is-ok{opacity:.72}
-.bm-item:hover img.is-ok{opacity:1}
+.bm-item img.is-ok{opacity:.55}
+.bm-item:hover img.is-ok{opacity:.9}
 .bm-txt{
   display:none;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;
-  color:#E3E7EE;text-align:center;line-height:1.2;opacity:.8
+  color:var(--ink-2);text-align:center;line-height:1.2;opacity:.6
 }
 .bm-item.is-fail img{display:none}
 .bm-item.is-fail .bm-txt{display:block}
@@ -422,24 +423,6 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 .svc-link svg{width:15px;height:15px;transition:transform .2s}
 .svc:hover .svc-link svg{transform:translateX(4px)}
 
-.emergency{
-  margin-top:22px;background:var(--ink);border-radius:var(--r-lg);padding:26px 22px;color:#AFB6C4;
-  position:relative;overflow:hidden;
-}
-.emergency::before{
-  content:"";position:absolute;top:-90px;right:-70px;width:260px;height:260px;border-radius:50%;
-  background:var(--grad);filter:blur(70px);opacity:.4
-}
-.emergency > *{position:relative;z-index:1}
-.emergency h3{color:#fff;margin-bottom:8px;font-size:clamp(1.3rem,4.6vw,1.7rem)}
-.emergency p{font-size:.94rem;margin-bottom:18px;max-width:46ch}
-.emergency .pill{
-  display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:6px 13px;font-size:.72rem;
-  font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--amber);margin-bottom:14px
-}
-.emergency .pill .blip{width:7px;height:7px;border-radius:50%;background:var(--amber);animation:blip 1.6s infinite}
-@keyframes blip{0%,100%{opacity:1}50%{opacity:.25}}
 
 /* ============================================================
    ABOUT
@@ -460,11 +443,21 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 .about-list h4{font-family:'Outfit',sans-serif;font-size:1.02rem;color:var(--ink);margin:0 0 3px;font-weight:700}
 .about-list p{font-size:.9rem}
 
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;margin-top:34px}
-.stat{background:#fff;padding:24px 16px;text-align:center}
-.stat b{display:block;font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,6vw,2.5rem);font-weight:800;line-height:1;
-  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:6px}
-.stat small{font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
+/* deep brand red-black, taken from the logo's red end rather than a neutral charcoal */
+.stats{
+  display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+  background:rgba(255,255,255,.11);
+  border-radius:var(--r-lg);overflow:hidden;margin-top:36px;
+  box-shadow:0 28px 60px -32px rgba(43,18,25,.6);
+}
+.stat{background:#2B1219;padding:28px 16px;text-align:center}
+.stat b{
+  display:block;font-family:'Outfit',sans-serif;font-size:clamp(1.7rem,6vw,2.5rem);font-weight:800;line-height:1;
+  /* brighter end of the brand ramp so the numbers stay legible on the dark */
+  background:linear-gradient(100deg,#FBAF43 0%,#F9825A 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:7px
+}
+.stat small{font-size:.78rem;color:#C9B9BC;font-weight:600;letter-spacing:.02em}
 
 /* team */
 /* ============================================================
@@ -640,7 +633,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .rating-row{flex-direction:row;justify-content:center;gap:26px;text-align:left}
   .f-grid{grid-template-columns:repeat(2,1fr)}
   .f-bot{flex-direction:row;justify-content:space-between;text-align:left}
-  .emergency{padding:34px 32px}
 }
 @media (min-width:900px){
   html{scroll-padding-top:96px}
@@ -1221,16 +1213,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 
     </div>
 
-    <!-- free review banner -->
-    <div class="emergency rv">
-      <span class="pill"><span class="blip"></span>Free, no obligation</span>
-      <h3>Not showing up when your customers search?</h3>
-      <p>Send us your website and we'll come back with an honest review — what's costing you leads, what's working, and what we'd fix first. No pitch deck, no pressure.</p>
-      <a class="btn btn--primary" href="#contact">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
-        Get my free website review
-      </a>
-    </div>
   </div>
 </section>
 
