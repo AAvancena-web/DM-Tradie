@@ -212,7 +212,7 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
   /* sits up behind the transparent header so the brand colour runs to the top */
   margin-top:calc(-1 * var(--nav-h));
   padding-top:calc(var(--nav-h) + 26px);
-  padding-bottom:0;
+  padding-bottom:clamp(40px,7vw,68px);
   /* brand-colour washes layered over the charcoal base */
   background:
     radial-gradient(118% 84% at 88% 2%,rgba(251,175,67,.34) 0%,rgba(251,175,67,0) 56%),
@@ -317,8 +317,9 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* quote form card */
 .quote-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:22px 20px;box-shadow:var(--shadow-lg);margin-bottom:clamp(48px,7vw,80px);
+  padding:22px 20px;box-shadow:var(--shadow-lg);
 }
+.quote-band{background:var(--bg);padding:clamp(26px,4.5vw,42px) 0}
 .quote-card .qc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
 .qc-icon{width:42px;height:42px;border-radius:13px;background:var(--grad);display:grid;place-items:center;flex:none}
 .qc-icon svg{width:21px;height:21px;color:#fff}
@@ -606,12 +607,12 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .nav-cta{display:inline-flex}
   .sticky-cta{display:none}
   .mobile-pad{display:none}
-  .hero{padding-top:56px}
+  .hero{padding-top:calc(var(--nav-h) + 56px)}
   .hero .hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
   .hero .hero-inner > *{min-width:0}
   .hero-media{margin-bottom:0}
   .mq{height:500px}
-  .quote-card{margin-top:46px;position:relative;z-index:5}
+  .quote-card{padding:26px 28px}
   .quote-card .qc-form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px;align-items:end}
   .quote-card .qc-form-grid .btn{margin-bottom:11px}
   .svc-grid{grid-template-columns:repeat(3,1fr);gap:20px}
@@ -939,62 +940,67 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
         </div>
       </div>
     </div>
-
-    <!-- ---------- HERO QUOTE FORM ---------- -->
-    <div class="quote-card rv" id="quote">
-      <div class="qc-top">
-        <span class="qc-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h3"/></svg>
-        </span>
-        <div>
-          <h3>Get a free website review</h3>
-          <p class="qc-sub">Tell us about your business — we'll send back an honest review of your site within 2 business days.</p>
-        </div>
-      </div>
-
-      <form class="quote-form" novalidate>
-        <div class="form-body">
-          <div class="qc-form-grid">
-            <div class="field">
-              <label for="q-name">Your name</label>
-              <input id="q-name" name="name" type="text" placeholder="Jane Smith" autocomplete="name" required>
-              <span class="msg">Please enter your name</span>
-            </div>
-            <div class="field">
-              <label for="q-phone">Phone</label>
-              <input id="q-phone" name="phone" type="tel" placeholder="0400 000 000" autocomplete="tel" required>
-              <span class="msg">Please enter a valid phone number</span>
-            </div>
-            <div class="field">
-              <label for="q-service">What are you after?</label>
-              <select id="q-service" name="service" required>
-                <option value="">Select a service…</option>
-                <option>A new website</option>
-                <option>Website redesign</option>
-                <option>SEO &amp; Google Maps</option>
-                <option>Google Ads &amp; lead gen</option>
-                <option>Branding &amp; logo</option>
-                <option>Website care &amp; hosting</option>
-                <option>Not sure yet</option>
-              </select>
-              <span class="msg">Please choose a service</span>
-            </div>
-            <button class="btn btn--primary btn--block" type="submit">
-              Send me my free review
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-            </button>
-          </div>
-          <p class="form-fine">No spam, no hard sell. We only use your details to prepare your review.</p>
-        </div>
-        <div class="form-ok">
-          <span class="ok-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
-          <h3>Thanks — review requested</h3>
-          <p class="qc-sub">We'll get your website review over within 2 business days. Want to talk sooner? Call <a href="tel:1300878233"><b>1300 878 233</b></a>.</p>
-        </div>
-      </form>
-    </div>
   </div>
 </section>
+
+<!-- ================= QUOTE FORM ================= -->
+<section class="quote-band">
+  <div class="wrap">
+  <div class="quote-card rv" id="quote">
+    <div class="qc-top">
+      <span class="qc-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h3"/></svg>
+      </span>
+      <div>
+        <h3>Get a free website review</h3>
+        <p class="qc-sub">Tell us about your business — we'll send back an honest review of your site within 2 business days.</p>
+      </div>
+    </div>
+
+    <form class="quote-form" novalidate>
+      <div class="form-body">
+        <div class="qc-form-grid">
+          <div class="field">
+            <label for="q-name">Your name</label>
+            <input id="q-name" name="name" type="text" placeholder="Jane Smith" autocomplete="name" required>
+            <span class="msg">Please enter your name</span>
+          </div>
+          <div class="field">
+            <label for="q-phone">Phone</label>
+            <input id="q-phone" name="phone" type="tel" placeholder="0400 000 000" autocomplete="tel" required>
+            <span class="msg">Please enter a valid phone number</span>
+          </div>
+          <div class="field">
+            <label for="q-service">What are you after?</label>
+            <select id="q-service" name="service" required>
+              <option value="">Select a service…</option>
+              <option>A new website</option>
+              <option>Website redesign</option>
+              <option>SEO &amp; Google Maps</option>
+              <option>Google Ads &amp; lead gen</option>
+              <option>Branding &amp; logo</option>
+              <option>Website care &amp; hosting</option>
+              <option>Not sure yet</option>
+            </select>
+            <span class="msg">Please choose a service</span>
+          </div>
+          <button class="btn btn--primary btn--block" type="submit">
+            Send me my free review
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+          </button>
+        </div>
+        <p class="form-fine">No spam, no hard sell. We only use your details to prepare your review.</p>
+      </div>
+      <div class="form-ok">
+        <span class="ok-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+        <h3>Thanks — review requested</h3>
+        <p class="qc-sub">We'll get your website review over within 2 business days. Want to talk sooner? Call <a href="tel:1300878233"><b>1300 878 233</b></a>.</p>
+      </div>
+    </form>
+  </div>
+  </div>
+</section>
+
 
 <!-- ================= TRUST STRIP ================= -->
 <div class="strip">
