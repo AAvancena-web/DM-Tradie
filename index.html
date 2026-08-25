@@ -544,6 +544,34 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .faq-wrap{gap:84px}
   .contact-grid{gap:72px}
 }
+/* ============================================================
+   BRAND / CLIENT STRIP
+   ============================================================ */
+.brands{background:#fff;padding:clamp(38px,6vw,62px) 0;border-bottom:1px solid var(--line)}
+.brands-head{text-align:center;margin-bottom:24px}
+.brands-head p{
+  font-size:.74rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)
+}
+.brand-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.brand-tile{
+  display:flex;align-items:center;justify-content:center;text-align:center;
+  min-height:88px;padding:16px 12px;border:1px solid var(--line);border-radius:var(--r);background:#fff;
+  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+}
+.brand-tile:hover{transform:translateY(-3px);border-color:transparent;box-shadow:var(--shadow)}
+.bw{font-family:'Outfit',sans-serif;line-height:1.18}
+.bw b{
+  display:block;font-weight:800;font-size:clamp(.88rem,3vw,1.02rem);letter-spacing:-.015em;
+  color:var(--ink);transition:color .25s ease
+}
+.bw span{
+  display:block;font-weight:300;font-size:clamp(.6rem,2.2vw,.7rem);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--muted);margin-top:3px;transition:color .25s ease
+}
+.brand-tile:hover .bw b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-tile:hover .bw span{color:var(--coral)}
+@media (min-width:640px){ .brand-grid{grid-template-columns:repeat(3,1fr);gap:14px} }
+@media (min-width:1200px){ .brand-grid{grid-template-columns:repeat(6,1fr);gap:16px} }
 </style>
 </head>
 <body>
@@ -739,6 +767,35 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
         <span class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>
         <b>10-year warranty</b><small>On all workmanship</small>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= BRANDS WE WORK WITH ================= -->
+<div class="brands">
+  <div class="wrap">
+    <div class="brands-head rv">
+      <p>Trusted by leading Australian trade brands</p>
+    </div>
+    <div class="brand-grid">
+      <a class="brand-tile rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>MW</b><span>Homes</span></span>
+      </a>
+      <a class="brand-tile rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>Narrow</b><span>Tech</span></span>
+      </a>
+      <a class="brand-tile rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>Ultra Finish</b><span>Roofing</span></span>
+      </a>
+      <a class="brand-tile rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>Precision</b><span>Painting</span></span>
+      </a>
+      <a class="brand-tile rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>Build</b><span>marque</span></span>
+      </a>
+      <a class="brand-tile rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
+        <span class="bw"><b>Building &amp; Property</b><span>Inspections</span></span>
+      </a>
     </div>
   </div>
 </div>
