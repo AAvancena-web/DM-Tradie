@@ -38,6 +38,7 @@
   --shadow-lg:0 30px 70px -34px rgba(20,24,31,.42);
   --wrap:1180px;
   --pad:20px;
+  --nav-h:66px;
 }
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:74px}
@@ -135,7 +136,7 @@ section{position:relative}
 .topbar svg{width:14px;height:14px;color:var(--amber)}
 
 header.site{
-  position:sticky;top:0;z-index:80;background:var(--ink);
+  position:sticky;top:0;z-index:80;background:transparent;
   border-bottom:1px solid transparent;
   transition:background .35s ease,border-color .3s ease,box-shadow .3s ease;
 }
@@ -207,24 +208,33 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
    HERO — deliberately compact on mobile
    ============================================================ */
 .hero{
-  position:relative;padding-top:26px;padding-bottom:0;overflow:hidden;
-  background:var(--ink);color:#AEB6C6;isolation:isolate
+  position:relative;overflow:hidden;isolation:isolate;color:#AEB6C6;
+  /* sits up behind the transparent header so the brand colour runs to the top */
+  margin-top:calc(-1 * var(--nav-h));
+  padding-top:calc(var(--nav-h) + 26px);
+  padding-bottom:0;
+  /* brand-colour washes layered over the charcoal base */
+  background:
+    radial-gradient(118% 84% at 88% 2%,rgba(251,175,67,.34) 0%,rgba(251,175,67,0) 56%),
+    radial-gradient(104% 80% at 3% 8%,rgba(242,64,79,.36) 0%,rgba(242,64,79,0) 58%),
+    radial-gradient(120% 88% at 52% 104%,rgba(244,96,63,.30) 0%,rgba(244,96,63,0) 62%),
+    linear-gradient(158deg,#171B23 0%,#13171E 46%,#181C25 100%);
 }
 /* drifting brand-gradient glows */
 .hero-aurora{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .hero-aurora span{position:absolute;display:block;border-radius:50%;filter:blur(90px);will-change:transform}
 .hero-aurora .a1{
-  top:4%;right:-10%;width:min(56vw,620px);aspect-ratio:1;opacity:.55;
+  top:4%;right:-10%;width:min(56vw,620px);aspect-ratio:1;opacity:.38;
   background:radial-gradient(circle,#FBAF43 0%,rgba(251,175,67,0) 68%);
   animation:aurora1 24s ease-in-out infinite alternate
 }
 .hero-aurora .a2{
-  top:2%;left:-16%;width:min(52vw,560px);aspect-ratio:1;opacity:.5;
+  top:2%;left:-16%;width:min(52vw,560px);aspect-ratio:1;opacity:.34;
   background:radial-gradient(circle,#F2404F 0%,rgba(242,64,79,0) 68%);
   animation:aurora2 30s ease-in-out infinite alternate
 }
 .hero-aurora .a3{
-  bottom:-16%;left:30%;width:min(48vw,520px);aspect-ratio:1;opacity:.4;
+  bottom:-16%;left:30%;width:min(48vw,520px);aspect-ratio:1;opacity:.28;
   background:radial-gradient(circle,#F4603F 0%,rgba(244,96,63,0) 70%);
   animation:aurora3 27s ease-in-out infinite alternate
 }
@@ -235,7 +245,7 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* faint dot grid, fading out down the section */
 .hero::after{
   content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:radial-gradient(rgba(255,255,255,.075) 1px,transparent 1px);
+  background-image:radial-gradient(rgba(255,255,255,.1) 1px,transparent 1px);
   background-size:24px 24px;
   -webkit-mask:radial-gradient(130% 78% at 50% 0%,#000 10%,transparent 76%);
   mask:radial-gradient(130% 78% at 50% 0%,#000 10%,transparent 76%);
@@ -243,7 +253,7 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 .hero .wrap{position:relative;z-index:1}
 .hero-copy h1{color:#fff;margin-bottom:16px}
 .hero-copy h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero-sub{font-size:clamp(1rem,3.6vw,1.16rem);max-width:52ch;margin-bottom:22px;color:#AEB6C6}
+.hero-sub{font-size:clamp(1rem,3.6vw,1.16rem);max-width:52ch;margin-bottom:22px;color:#C9D0DC}
 .hero-actions{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px}
 .hero .btn--ghost{
   background:rgba(255,255,255,.08);color:#fff;border-color:rgba(255,255,255,.22);box-shadow:none
@@ -582,6 +592,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 @media (min-width:900px){
   html{scroll-padding-top:96px}
   .topbar{display:block}
+  :root{--nav-h:78px}
   .nav{height:78px}
   .burger{display:none}
   .call-mini{display:none}
