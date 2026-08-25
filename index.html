@@ -297,7 +297,23 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 }
 .mq-meta{position:relative;z-index:1}
 .mq-meta .k{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8;font-weight:600}
-.mq-meta .nm{font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:800;margin-top:3px;letter-spacing:-.02em}
+/* on a dark photo a logo can disappear, so it sits on a white pad */
+.mqlogo{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border-radius:12px;padding:9px 13px;margin-bottom:11px;
+  min-height:44px;min-width:70px;box-shadow:0 10px 22px -12px rgba(0,0,0,.6)
+}
+.mqlogo img{
+  max-height:26px;max-width:128px;width:auto;height:auto;object-fit:contain;
+  opacity:0;transition:opacity .35s ease
+}
+.mqlogo img.is-ok{opacity:1}
+.mqlogo-txt{
+  display:none;font-family:'Outfit',sans-serif;font-weight:800;font-size:.92rem;
+  letter-spacing:-.02em;color:var(--ink);white-space:nowrap
+}
+.mqlogo.is-fail img{display:none}
+.mqlogo.is-fail .mqlogo-txt{display:block}
 .mq-meta .res{
   display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.78rem;font-weight:700;
   background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px
@@ -712,14 +728,19 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   display:flex;align-items:center;justify-content:space-between;gap:12px;
   padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)
 }
-.bw{font-family:'Outfit',sans-serif;line-height:1.18;text-align:left}
-.bw b{
-  display:block;font-weight:800;font-size:clamp(.9rem,3vw,1.04rem);letter-spacing:-.015em;color:var(--ink)
+/* client logo on a light card — natural colours, text name if it fails to load */
+.blogo{display:flex;align-items:center;min-height:42px;max-width:74%}
+.blogo img{
+  max-height:40px;max-width:100%;width:auto;height:auto;object-fit:contain;object-position:left center;
+  opacity:0;transition:opacity .35s ease
 }
-.bw span{
-  display:block;font-weight:300;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--muted);margin-top:2px
+.blogo img.is-ok{opacity:1}
+.blogo-txt{
+  display:none;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;
+  letter-spacing:-.015em;color:var(--ink);line-height:1.2
 }
+.blogo.is-fail img{display:none}
+.blogo.is-fail .blogo-txt{display:block}
 .result-visit{
   width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;
   background:var(--grad-soft);color:var(--red);transition:background .25s ease,color .25s ease
@@ -852,8 +873,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
+                  <span class="mqlogo-txt">MW Homes</span>
+                </span>
                 <div class="k">mwhomes.com.au</div>
-                <div class="nm">MW Homes</div>
                 <span class="res"><span class="rdot"></span>+312% enquiries</span>
               </div>
             </a>
@@ -863,8 +887,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">N</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" decoding="async">
+                  <span class="mqlogo-txt">Narrow Tech</span>
+                </span>
                 <div class="k">narrowtech.com.au</div>
-                <div class="nm">Narrow Tech</div>
                 <span class="res"><span class="rdot"></span>+186% organic traffic</span>
               </div>
             </a>
@@ -874,8 +901,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">U</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
+                  <span class="mqlogo-txt">Ultra Finish Roofing</span>
+                </span>
                 <div class="k">ultrafinishroofing.com.au</div>
-                <div class="nm">Ultra Finish Roofing</div>
                 <span class="res"><span class="rdot"></span>+240% quote requests</span>
               </div>
             </a>
@@ -885,8 +915,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">P</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
+                  <span class="mqlogo-txt">Precision Painting</span>
+                </span>
                 <div class="k">precisionpaintingaus.com.au</div>
-                <div class="nm">Precision Painting</div>
                 <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
               </div>
             </a>
@@ -896,8 +929,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
+                  <span class="mqlogo-txt">Buildmarque</span>
+                </span>
                 <div class="k">buildmarque.com.au</div>
-                <div class="nm">Buildmarque</div>
                 <span class="res"><span class="rdot"></span>+97% conversion rate</span>
               </div>
             </a>
@@ -907,8 +943,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
+                  <span class="mqlogo-txt">Building &amp; Property Inspections</span>
+                </span>
                 <div class="k">buildingpropertyinspections.com.au</div>
-                <div class="nm">Building &amp; Property Inspections</div>
                 <span class="res"><span class="rdot"></span>+154% booked inspections</span>
               </div>
             </a>
@@ -919,8 +958,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
+                  <span class="mqlogo-txt">MW Homes</span>
+                </span>
                 <div class="k">mwhomes.com.au</div>
-                <div class="nm">MW Homes</div>
                 <span class="res"><span class="rdot"></span>+312% enquiries</span>
               </div>
             </a>
@@ -930,8 +972,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">N</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" decoding="async">
+                  <span class="mqlogo-txt">Narrow Tech</span>
+                </span>
                 <div class="k">narrowtech.com.au</div>
-                <div class="nm">Narrow Tech</div>
                 <span class="res"><span class="rdot"></span>+186% organic traffic</span>
               </div>
             </a>
@@ -941,8 +986,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">U</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
+                  <span class="mqlogo-txt">Ultra Finish Roofing</span>
+                </span>
                 <div class="k">ultrafinishroofing.com.au</div>
-                <div class="nm">Ultra Finish Roofing</div>
                 <span class="res"><span class="rdot"></span>+240% quote requests</span>
               </div>
             </a>
@@ -952,8 +1000,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">P</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
+                  <span class="mqlogo-txt">Precision Painting</span>
+                </span>
                 <div class="k">precisionpaintingaus.com.au</div>
-                <div class="nm">Precision Painting</div>
                 <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
               </div>
             </a>
@@ -963,8 +1014,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
+                  <span class="mqlogo-txt">Buildmarque</span>
+                </span>
                 <div class="k">buildmarque.com.au</div>
-                <div class="nm">Buildmarque</div>
                 <span class="res"><span class="rdot"></span>+97% conversion rate</span>
               </div>
             </a>
@@ -974,8 +1028,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
+                <span class="mqlogo">
+                  <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
+                  <span class="mqlogo-txt">Building &amp; Property Inspections</span>
+                </span>
                 <div class="k">buildingpropertyinspections.com.au</div>
-                <div class="nm">Building &amp; Property Inspections</div>
                 <span class="res"><span class="rdot"></span>+154% booked inspections</span>
               </div>
             </a>
@@ -1084,7 +1141,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
     <div class="results-grid">
       <a class="result rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>MW</b><span>Homes</span></span>
+          <span class="blogo">
+            <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">MW Homes</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1097,7 +1157,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </a>
       <a class="result rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>Narrow</b><span>Tech</span></span>
+          <span class="blogo">
+            <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Narrow Tech</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1110,7 +1173,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </a>
       <a class="result rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>Ultra Finish</b><span>Roofing</span></span>
+          <span class="blogo">
+            <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Ultra Finish Roofing</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1123,7 +1189,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </a>
       <a class="result rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>Precision</b><span>Painting</span></span>
+          <span class="blogo">
+            <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Precision Painting</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1136,7 +1205,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </a>
       <a class="result rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>Build</b><span>marque</span></span>
+          <span class="blogo">
+            <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Buildmarque</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1149,7 +1221,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </a>
       <a class="result rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
         <div class="result-top">
-          <span class="bw"><b>Building &amp; Property</b><span>Inspections</span></span>
+          <span class="blogo">
+            <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Building &amp; Property Inspections</span>
+          </span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
@@ -1778,10 +1853,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   if (yr) yr.textContent = new Date().getFullYear();
 
   /* ---------- broken images fall back to the branded gradient ---------- */
-  document.querySelectorAll('.ph img').forEach(function (img) {
+  document.querySelectorAll('.ph img, .blogo img, .mqlogo img').forEach(function (img) {
     function ok() { img.classList.add('is-ok'); }
     function fail() {
-      var ph = img.closest('.ph');
+      var ph = img.closest('.ph, .blogo, .mqlogo');
       if (ph) ph.classList.add('is-fail');
     }
     img.addEventListener('load', ok);
