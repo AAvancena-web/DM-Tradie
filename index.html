@@ -199,8 +199,42 @@ header.site.stuck{border-bottom-color:var(--line);box-shadow:0 8px 26px -22px rg
 .stars{display:inline-flex;gap:2px;color:#FBAF43}
 .stars svg{width:14px;height:14px;color:#FBAF43}
 
-.hero-media{position:relative;margin-bottom:26px}
-.hero-media .ph{border-radius:var(--r-lg);box-shadow:var(--shadow-lg)}
+.hero-media{position:relative;margin-bottom:26px;min-width:0}
+/* client marquee — scrolls right to left, pauses on hover */
+.mq{
+  position:relative;overflow:hidden;height:clamp(330px,74vw,440px);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.mq-track{display:flex;align-items:stretch;height:100%;width:max-content;animation:mqRun 42s linear infinite}
+.mq:hover .mq-track,.mq:focus-within .mq-track{animation-play-state:paused}
+@keyframes mqRun{to{transform:translateX(-50%)}}
+.mqcard{
+  position:relative;flex:none;height:100%;width:clamp(232px,62vw,296px);margin-right:18px;
+  border-radius:var(--r-lg);overflow:hidden;isolation:isolate;
+  display:flex;align-items:flex-end;padding:22px 20px;color:#fff;
+  box-shadow:0 30px 56px -30px rgba(20,24,31,.6);
+  transition:transform .3s ease;
+}
+.mqcard:hover{transform:translateY(-5px)}
+.mqcard .ph{position:absolute;inset:0;z-index:-2;border-radius:0;margin:0}
+.mqcard::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(180deg,rgba(15,18,24,0) 32%,rgba(15,18,24,.88) 100%)
+}
+.mqcard .wm{
+  position:absolute;top:-22px;right:-6px;z-index:0;font-family:'Outfit',sans-serif;font-weight:800;
+  font-size:132px;line-height:1;color:rgba(255,255,255,.16);pointer-events:none;letter-spacing:-.04em
+}
+.mq-meta{position:relative;z-index:1}
+.mq-meta .k{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8;font-weight:600}
+.mq-meta .nm{font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:800;margin-top:3px;letter-spacing:-.02em}
+.mq-meta .res{
+  display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.78rem;font-weight:700;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px
+}
+.mq-meta .res .rdot{width:6px;height:6px;border-radius:50%;background:#7CE7A6;flex:none}
+@media (prefers-reduced-motion:reduce){.mq-track{animation:none}}
 .hero-badge{
   position:absolute;left:14px;bottom:14px;z-index:3;background:rgba(255,255,255,.94);
   backdrop-filter:blur(10px);border-radius:16px;padding:11px 15px;box-shadow:var(--shadow);
@@ -502,8 +536,9 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .mobile-pad{display:none}
   .hero{padding-top:56px}
   .hero .hero-inner{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+  .hero .hero-inner > *{min-width:0}
   .hero-media{margin-bottom:0}
-  .hero-media .ph{aspect-ratio:4/4.5}
+  .mq{height:500px}
   .quote-card{margin-top:46px;position:relative;z-index:5}
   .quote-card .qc-form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px;align-items:end}
   .quote-card .qc-form-grid .btn{margin-bottom:11px}
@@ -524,7 +559,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 /* ---------- laptop / desktop: 1440px container ---------- */
 @media (min-width:1200px){
   :root{--wrap:1440px;--pad:32px}
-  .hero-media .ph{max-height:620px}
+  .mq{height:540px}
+  .mqcard{width:318px;margin-right:20px}
   .about-list{max-width:64ch}
   .contact-card{max-width:780px}
 }
@@ -535,7 +571,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   h1{font-size:4.2rem}
   h2{font-size:3.1rem}
   .hero .hero-inner{gap:76px}
-  .hero-media .ph{max-height:700px}
+  .mq{height:600px}
+  .mqcard{width:352px;margin-right:22px}
   .about-wrap{gap:76px}
   .about-media .sq{aspect-ratio:4/3}
   .team .ph{max-height:560px}
@@ -545,33 +582,46 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .contact-grid{gap:72px}
 }
 /* ============================================================
-   BRAND / CLIENT STRIP
+   CLIENT RESULTS
    ============================================================ */
-.brands{background:#fff;padding:clamp(38px,6vw,62px) 0;border-bottom:1px solid var(--line)}
-.brands-head{text-align:center;margin-bottom:24px}
-.brands-head p{
-  font-size:.74rem;font-weight:800;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)
+.results-head{margin-bottom:clamp(26px,4vw,42px)}
+.results-grid{display:grid;gap:14px}
+.result{
+  background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 20px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;
+  transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;
 }
-.brand-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.brand-tile{
-  display:flex;align-items:center;justify-content:center;text-align:center;
-  min-height:88px;padding:16px 12px;border:1px solid var(--line);border-radius:var(--r);background:#fff;
-  transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease;
+.result:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:transparent}
+.result-top{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding-bottom:16px;margin-bottom:18px;border-bottom:1px solid var(--line)
 }
-.brand-tile:hover{transform:translateY(-3px);border-color:transparent;box-shadow:var(--shadow)}
-.bw{font-family:'Outfit',sans-serif;line-height:1.18}
+.bw{font-family:'Outfit',sans-serif;line-height:1.18;text-align:left}
 .bw b{
-  display:block;font-weight:800;font-size:clamp(.88rem,3vw,1.02rem);letter-spacing:-.015em;
-  color:var(--ink);transition:color .25s ease
+  display:block;font-weight:800;font-size:clamp(.9rem,3vw,1.04rem);letter-spacing:-.015em;color:var(--ink)
 }
 .bw span{
-  display:block;font-weight:300;font-size:clamp(.6rem,2.2vw,.7rem);letter-spacing:.2em;
-  text-transform:uppercase;color:var(--muted);margin-top:3px;transition:color .25s ease
+  display:block;font-weight:300;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--muted);margin-top:2px
 }
-.brand-tile:hover .bw b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.brand-tile:hover .bw span{color:var(--coral)}
-@media (min-width:640px){ .brand-grid{grid-template-columns:repeat(3,1fr);gap:14px} }
-@media (min-width:1200px){ .brand-grid{grid-template-columns:repeat(6,1fr);gap:16px} }
+.result-visit{
+  width:34px;height:34px;border-radius:11px;flex:none;display:grid;place-items:center;
+  background:var(--grad-soft);color:var(--red);transition:background .25s ease,color .25s ease
+}
+.result-visit svg{width:15px;height:15px}
+.result:hover .result-visit{background:var(--grad);color:#fff}
+.metric b{
+  display:block;font-family:'Outfit',sans-serif;font-weight:800;line-height:1;
+  font-size:clamp(2.3rem,9vw,3rem);letter-spacing:-.03em;
+  background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:7px
+}
+.metric small{display:block;font-size:.86rem;font-weight:600;color:var(--ink-2)}
+.result p{font-size:.86rem;color:var(--muted);margin-top:10px}
+.results-fine{
+  margin-top:clamp(24px,4vw,36px);text-align:center;font-size:.8rem;color:var(--muted)
+}
+@media (min-width:640px){ .results-grid{grid-template-columns:repeat(2,1fr);gap:16px} }
+@media (min-width:1200px){ .results-grid{grid-template-columns:repeat(3,1fr);gap:20px} }
 </style>
 </head>
 <body>
@@ -675,18 +725,143 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       </div>
 
       <div class="hero-media rv">
-        <figure class="ph r-4x3" data-label="Hero image — tradie on site">
-          <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&amp;fit=crop&amp;w=1100&amp;q=75"
-               alt="DM Tradies technician working on site" fetchpriority="high" decoding="async">
-        </figure>
-        <div class="hero-badge">
-          <span class="hb-ic">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
-          </span>
-          <span>
-            <span class="hb-num">2 hrs</span>
-            <span class="hb-lb">Average<br>response time</span>
-          </span>
+        <div class="mq" aria-label="Trade brands we work with">
+          <div class="mq-track">
+            <!-- set 1 -->
+            <a class="mqcard" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="MW Homes">
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed new home build" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">M</span>
+              <div class="mq-meta">
+                <div class="k">mwhomes.com.au</div>
+                <div class="nm">MW Homes</div>
+                <span class="res"><span class="rdot"></span>+312% enquiries</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="Narrow Tech">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Team reviewing works on site" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">N</span>
+              <div class="mq-meta">
+                <div class="k">narrowtech.com.au</div>
+                <div class="nm">Narrow Tech</div>
+                <span class="res"><span class="rdot"></span>+186% organic traffic</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="Ultra Finish Roofing">
+                <img src="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Roofer installing metal roof sheeting" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">U</span>
+              <div class="mq-meta">
+                <div class="k">ultrafinishroofing.com.au</div>
+                <div class="nm">Ultra Finish Roofing</div>
+                <span class="res"><span class="rdot"></span>+240% quote requests</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="Precision Painting">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Freshly painted interior" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">P</span>
+              <div class="mq-meta">
+                <div class="k">precisionpaintingaus.com.au</div>
+                <div class="nm">Precision Painting</div>
+                <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="Buildmarque">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Commercial construction site" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">B</span>
+              <div class="mq-meta">
+                <div class="k">buildmarque.com.au</div>
+                <div class="nm">Buildmarque</div>
+                <span class="res"><span class="rdot"></span>+97% conversion rate</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
+              <figure class="ph" data-label="Building &amp; Property Inspections">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Inspector checking timber framing" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">B</span>
+              <div class="mq-meta">
+                <div class="k">buildingpropertyinspections.com.au</div>
+                <div class="nm">Building &amp; Property Inspections</div>
+                <span class="res"><span class="rdot"></span>+154% booked inspections</span>
+              </div>
+            </a>
+            <!-- set 2 — duplicate for a seamless loop -->
+            <a class="mqcard" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="MW Homes">
+                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed new home build" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">M</span>
+              <div class="mq-meta">
+                <div class="k">mwhomes.com.au</div>
+                <div class="nm">MW Homes</div>
+                <span class="res"><span class="rdot"></span>+312% enquiries</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="Narrow Tech">
+                <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Team reviewing works on site" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">N</span>
+              <div class="mq-meta">
+                <div class="k">narrowtech.com.au</div>
+                <div class="nm">Narrow Tech</div>
+                <span class="res"><span class="rdot"></span>+186% organic traffic</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="Ultra Finish Roofing">
+                <img src="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Roofer installing metal roof sheeting" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">U</span>
+              <div class="mq-meta">
+                <div class="k">ultrafinishroofing.com.au</div>
+                <div class="nm">Ultra Finish Roofing</div>
+                <span class="res"><span class="rdot"></span>+240% quote requests</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="Precision Painting">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Freshly painted interior" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">P</span>
+              <div class="mq-meta">
+                <div class="k">precisionpaintingaus.com.au</div>
+                <div class="nm">Precision Painting</div>
+                <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="Buildmarque">
+                <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Commercial construction site" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">B</span>
+              <div class="mq-meta">
+                <div class="k">buildmarque.com.au</div>
+                <div class="nm">Buildmarque</div>
+                <span class="res"><span class="rdot"></span>+97% conversion rate</span>
+              </div>
+            </a>
+            <a class="mqcard" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
+              <figure class="ph" data-label="Building &amp; Property Inspections">
+                <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Inspector checking timber framing" loading="lazy" decoding="async">
+              </figure>
+              <span class="wm" aria-hidden="true">B</span>
+              <div class="mq-meta">
+                <div class="k">buildingpropertyinspections.com.au</div>
+                <div class="nm">Building &amp; Property Inspections</div>
+                <span class="res"><span class="rdot"></span>+154% booked inspections</span>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -771,34 +946,102 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   </div>
 </div>
 
-<!-- ================= BRANDS WE WORK WITH ================= -->
-<div class="brands">
+<!-- ================= CLIENT RESULTS =================
+     NOTE: the figures below are PLACEHOLDER numbers for layout only.
+     Replace with verified reporting data before this page goes live.
+     ============================================================ -->
+<section class="sect sect--soft" id="results">
   <div class="wrap">
-    <div class="brands-head rv">
-      <p>Trusted by leading Australian trade brands</p>
+    <div class="head center results-head rv">
+      <span class="eyebrow"><span class="dot"></span>Proven results</span>
+      <h2>Numbers that turn up, too.</h2>
+      <p class="lead" style="margin-inline:auto">A snapshot of what we've delivered for Australian trade brands we work with.</p>
     </div>
-    <div class="brand-grid">
-      <a class="brand-tile rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>MW</b><span>Homes</span></span>
+
+    <div class="results-grid">
+      <a class="result rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>MW</b><span>Homes</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="312" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Enquiries</small>
+        </div>
+        <p>New home build enquiries, 12 months on</p>
       </a>
-      <a class="brand-tile rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>Narrow</b><span>Tech</span></span>
+      <a class="result rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>Narrow</b><span>Tech</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="186" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Organic traffic</small>
+        </div>
+        <p>Search visibility across core service pages</p>
       </a>
-      <a class="brand-tile rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>Ultra Finish</b><span>Roofing</span></span>
+      <a class="result rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>Ultra Finish</b><span>Roofing</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="240" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Quote requests</small>
+        </div>
+        <p>Roof restoration leads, year on year</p>
       </a>
-      <a class="brand-tile rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>Precision</b><span>Painting</span></span>
+      <a class="result rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>Precision</b><span>Painting</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="4.2" data-prefix="" data-suffix="×" data-decimals="1">0×</b>
+          <small>Return on ad spend</small>
+        </div>
+        <p>Across paid search and local campaigns</p>
       </a>
-      <a class="brand-tile rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>Build</b><span>marque</span></span>
+      <a class="result rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>Build</b><span>marque</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="97" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Conversion rate</small>
+        </div>
+        <p>Visitors who go on to make an enquiry</p>
       </a>
-      <a class="brand-tile rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
-        <span class="bw"><b>Building &amp; Property</b><span>Inspections</span></span>
+      <a class="result rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="bw"><b>Building &amp; Property</b><span>Inspections</span></span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="154" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Booked inspections</small>
+        </div>
+        <p>Online bookings since launch</p>
       </a>
     </div>
+
+    <p class="results-fine rv">Figures shown are placeholder examples pending final reporting data.</p>
   </div>
-</div>
+</section>
 
 <!-- ================= SERVICES ================= -->
 <section class="sect sect--soft" id="services">
@@ -1429,13 +1672,19 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   function runCount(el) {
     var target = parseFloat(el.getAttribute('data-count'));
     var suffix = el.getAttribute('data-suffix') || '';
-    if (reduce) { el.textContent = target.toLocaleString('en-AU') + suffix; return; }
+    var prefix = el.getAttribute('data-prefix') || '';
+    var dp = parseInt(el.getAttribute('data-decimals') || '0', 10);
+    var fmt = function (v) {
+      return prefix + v.toLocaleString('en-AU', { minimumFractionDigits: dp, maximumFractionDigits: dp }) + suffix;
+    };
+    if (reduce) { el.textContent = fmt(target); return; }
     var start = null, dur = 1400;
     function step(ts) {
       if (start === null) start = ts;
       var p = Math.min((ts - start) / dur, 1);
       var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased).toLocaleString('en-AU') + suffix;
+      var v = target * eased;
+      el.textContent = fmt(dp ? v : Math.round(v));
       if (p < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
