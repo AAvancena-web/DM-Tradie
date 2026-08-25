@@ -545,6 +545,49 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 .socials svg{width:19px;height:19px}
 
 /* ============================================================
+   FLOATING REVIEW FORM (desktop, after the banner)
+   ============================================================ */
+.fq{
+  position:fixed;top:calc(var(--nav-h) + 18px);right:18px;z-index:75;display:none;
+  opacity:0;transform:translateY(-10px);pointer-events:none;
+  transition:opacity .35s ease,transform .35s cubic-bezier(.3,.8,.3,1);
+}
+.fq.on{opacity:1;transform:none;pointer-events:auto}
+/* the header CTA and the floating pill share the top-right corner — never both */
+header.site .nav-cta{transition:opacity .3s ease,transform .3s ease}
+header.site.fq-live .nav-cta{opacity:0;transform:translateY(-8px);pointer-events:none}
+.fq-tab{
+  display:flex;align-items:center;gap:9px;margin-left:auto;
+  padding:11px 17px;border:0;border-radius:999px;cursor:pointer;
+  background:var(--grad);color:#fff;font-weight:700;font-size:.87rem;line-height:1;
+  box-shadow:0 14px 30px -14px rgba(242,64,79,.85);
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.fq-tab:hover{transform:translateY(-2px);box-shadow:0 20px 38px -16px rgba(242,64,79,.9)}
+.fq-tab svg{width:17px;height:17px;flex:none}
+.fq.is-open .fq-tab{display:none}
+.fq-panel{
+  width:min(330px,calc(100vw - 36px));background:#fff;border:1px solid var(--line);
+  border-radius:var(--r-lg);box-shadow:var(--shadow-lg);padding:20px 18px;position:relative;
+}
+.fq-panel h4{font-family:'Outfit',sans-serif;font-size:1.06rem;font-weight:700;color:var(--ink);margin:0 0 4px}
+.fq-panel .fq-sub{font-size:.83rem;color:var(--muted);margin-bottom:14px}
+.fq-close{
+  position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:9px;
+  border:1px solid var(--line);background:#fff;color:var(--muted);cursor:pointer;
+  display:grid;place-items:center;transition:color .2s,border-color .2s;
+}
+.fq-close:hover{color:var(--ink);border-color:#D6D9E2}
+.fq-close svg{width:14px;height:14px}
+.fq-panel .field input{padding:12px 14px;font-size:.95rem}
+.fq-panel .form-fine{margin-top:9px;font-size:.7rem}
+.fq-panel .form-ok{padding:14px 4px}
+.fq-panel .form-ok .ok-ic{width:44px;height:44px;margin-bottom:10px}
+.fq-panel .form-ok .ok-ic svg{width:22px;height:22px}
+.fq-panel .form-ok h3{font-size:1.02rem}
+@media (min-width:900px){.fq{display:block}}
+
+/* ============================================================
    FOOTER + STICKY MOBILE BAR
    ============================================================ */
 footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
@@ -1678,6 +1721,44 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 
 <div class="mobile-pad"></div>
 
+<!-- ========== FLOATING REVIEW FORM (desktop, after the banner) ========== -->
+<aside class="fq" id="floatQuote">
+  <button class="fq-tab" id="fqTab" type="button" aria-expanded="false" aria-controls="fqPanel">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+    Free website review
+  </button>
+
+  <div class="fq-panel" id="fqPanel" role="dialog" aria-label="Request a free website review" hidden>
+    <button class="fq-close" id="fqClose" type="button" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <h4>Free website review</h4>
+    <p class="fq-sub">Two details and we'll come back within 2 business days.</p>
+
+    <form class="quote-form" novalidate>
+      <div class="form-body">
+        <div class="field">
+          <label for="f-name">Your name</label>
+          <input id="f-name" name="name" type="text" placeholder="Jane Smith" autocomplete="name" required>
+          <span class="msg">Please enter your name</span>
+        </div>
+        <div class="field">
+          <label for="f-phone">Phone</label>
+          <input id="f-phone" name="phone" type="tel" placeholder="0400 000 000" autocomplete="tel" required>
+          <span class="msg">Please enter a valid phone number</span>
+        </div>
+        <button class="btn btn--primary btn--block" type="submit">Send my request</button>
+        <p class="form-fine">No spam, no hard sell.</p>
+      </div>
+      <div class="form-ok">
+        <span class="ok-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+        <h3>Thanks — we're on it</h3>
+        <p class="fq-sub">We'll be in touch within 2 business days.</p>
+      </div>
+    </form>
+  </div>
+</aside>
+
 <!-- ================= STICKY MOBILE CTA ================= -->
 <div class="sticky-cta" id="stickyCta">
   <a class="btn btn--ghost" href="tel:1300878233">
@@ -1730,14 +1811,52 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   var header = document.getElementById('siteHeader');
   var sticky = document.getElementById('stickyCta');
   var hero = document.getElementById('home');
-  var solidAt = 8;
+  var band = document.querySelector('.quote-band');
+  var contact = document.getElementById('contact');
+  var solidAt = 8, bannerEnd = 600;
+
+  /* ---------- floating review form ---------- */
+  var fq = document.getElementById('floatQuote');
+  var fqTab = document.getElementById('fqTab');
+  var fqPanel = document.getElementById('fqPanel');
+  var fqClose = document.getElementById('fqClose');
+
+  function fqSetOpen(open) {
+    if (!fq) return;
+    fqPanel.hidden = !open;
+    fq.classList.toggle('is-open', open);
+    fqTab.setAttribute('aria-expanded', String(open));
+    if (open) {
+      var first = fqPanel.querySelector('input');
+      if (first) first.focus();
+    }
+  }
+  if (fq) {
+    fqTab.addEventListener('click', function () { fqSetOpen(fqPanel.hidden); });
+    fqClose.addEventListener('click', function () { fqSetOpen(false); fqTab.focus(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !fqPanel.hidden) { fqSetOpen(false); fqTab.focus(); }
+    });
+  }
+
   function measure() {
     solidAt = hero ? Math.max(hero.offsetHeight - header.offsetHeight - 40, 8) : 8;
+    bannerEnd = band ? band.offsetTop + band.offsetHeight - 90 : 600;
   }
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
     header.classList.toggle('stuck', y > solidAt);
     sticky.classList.toggle('show', y > 520);
+
+    if (fq) {
+      // show once past the banner, and stand down near the real contact form
+      var nearContact = contact &&
+        contact.getBoundingClientRect().top < window.innerHeight * 0.8;
+      var show = y > bannerEnd && !nearContact;
+      fq.classList.toggle('on', show);
+      header.classList.toggle('fq-live', show);
+      if (!show && !fqPanel.hidden) fqSetOpen(false);
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', function () { measure(); onScroll(); }, { passive: true });
@@ -1842,7 +1961,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       setTimeout(function () {
         form.classList.add('is-sent');
-        form.closest('section').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+        var sect = form.closest('section');
+        if (sect) sect.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
       }, 550);
     });
 
