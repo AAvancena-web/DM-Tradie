@@ -721,9 +721,20 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 .result{
   position:relative;display:flex;flex-direction:column;overflow:hidden;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.11);
-  border-radius:var(--r-lg);padding:26px 22px 22px;
+  border-radius:var(--r-lg);padding:0;
   transition:transform .28s ease,border-color .28s ease,background .28s ease;
 }
+.result-body{padding:22px 22px 22px;display:flex;flex-direction:column;flex:1}
+/* project shot — swap in the client's own photography */
+.result-shot{
+  position:relative;aspect-ratio:16/9;border-radius:0;margin:0;flex:none;
+}
+.result-shot::before{
+  content:"";position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:linear-gradient(180deg,rgba(31,16,26,.45) 0%,rgba(31,16,26,0) 42%,rgba(31,16,26,.75) 100%)
+}
+.result-shot img{transition:transform .5s ease,opacity .45s ease}
+.result:hover .result-shot img{transform:scale(1.05)}
 .result::before{
   content:"";position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad);
   opacity:.85;transition:opacity .28s ease
@@ -731,26 +742,29 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 .result:hover{transform:translateY(-6px);background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
 .result:hover::before{opacity:1}
 
-.result-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.result-top{
+  position:absolute;top:14px;left:14px;right:14px;z-index:3;
+  display:flex;align-items:center;justify-content:space-between;gap:12px
+}
 .result-chip{
-  font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--amber);background:rgba(251,175,67,.12);border:1px solid rgba(251,175,67,.22);
-  padding:5px 11px;border-radius:999px;white-space:nowrap
+  font-size:.64rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;
+  color:#fff;background:rgba(20,12,18,.55);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);padding:6px 11px;border-radius:999px;white-space:nowrap
 }
 .result-visit{
   width:32px;height:32px;border-radius:10px;flex:none;display:grid;place-items:center;
-  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:#fff;
-  transition:background .25s ease
+  background:rgba(20,12,18,.55);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.2);color:#fff;transition:background .25s ease
 }
 .result-visit svg{width:14px;height:14px}
 .result:hover .result-visit{background:var(--grad);border-color:transparent}
 
 .result-site{
   font-family:'Outfit',sans-serif;font-weight:700;font-size:clamp(.95rem,2.6vw,1.06rem);
-  color:#fff;letter-spacing:-.01em;word-break:break-word;margin-bottom:20px
+  color:#fff;letter-spacing:-.01em;word-break:break-word;margin-bottom:18px
 }
 
-.metric{padding-top:20px;border-top:1px solid rgba(255,255,255,.11)}
+.metric{padding-top:18px;border-top:1px solid rgba(255,255,255,.11)}
 .metric b{
   display:block;font-family:'Outfit',sans-serif;font-weight:800;line-height:.95;
   font-size:clamp(2.7rem,10vw,3.6rem);letter-spacing:-.035em;
@@ -758,7 +772,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   -webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:9px
 }
 .metric small{display:block;font-size:.92rem;font-weight:700;color:#fff}
-.result > p{font-size:.88rem;color:#B3A3A9;margin-top:11px}
+.result-body > p{font-size:.88rem;color:#B3A3A9;margin-top:11px}
 
 .result-did{margin-top:auto;padding-top:22px}
 .result-did .did-label{
@@ -790,7 +804,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 @media (min-width:640px){ .results-grid{grid-template-columns:repeat(2,1fr);gap:18px} }
 @media (min-width:1200px){
   .results-grid{grid-template-columns:repeat(3,1fr);gap:22px}
-  .result{padding:30px 26px 26px}
+  .result-body{padding:26px 26px 26px}
 }
 @media (min-width:1920px){ .results-grid{gap:26px} }
 </style>
@@ -902,7 +916,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
             <!-- set 1 -->
             <a class="mqcard" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
               <figure class="ph" data-label="MW Homes">
-                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed new home build" decoding="async">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed MW Homes renovation interior" decoding="async">
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
@@ -969,7 +983,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
             <!-- set 2 — duplicate for a seamless loop -->
             <a class="mqcard" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
               <figure class="ph" data-label="MW Homes">
-                <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed new home build" decoding="async">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=620&amp;q=72" alt="Completed MW Homes renovation interior" decoding="async">
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
@@ -1288,181 +1302,211 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
     <div class="results-grid">
 
       <a class="result rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="mwhomes.com.au">
+          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Completed MW Homes renovation interior" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Lead generation</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">mwhomes.com.au</div>
+        <div class="result-body">
+          <div class="result-site">mwhomes.com.au</div>
 
-        <div class="metric">
-          <b data-count="312" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Enquiries</small>
-        </div>
-        <p>New home build enquiries, twelve months on from launch.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Website</span>
-            <span>Local SEO</span>
-            <span>Google Ads</span>
+          <div class="metric">
+            <b data-count="312" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+            <small>Enquiries</small>
           </div>
-          <div class="result-extra">
-          <div><b>1.8s</b><small>Load time</small></div>
-          <div><b>#1</b><small>For 12 search terms</small></div>
+          <p>New home build enquiries, twelve months on from launch.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Website</span>
+              <span>Local SEO</span>
+              <span>Google Ads</span>
+            </div>
+            <div class="result-extra">
+            <div><b>1.8s</b><small>Load time</small></div>
+            <div><b>#1</b><small>For 12 search terms</small></div>
+            </div>
           </div>
         </div>
       </a>
 
       <a class="result rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="narrowtech.com.au">
+          <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Narrow Tech team on site" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Organic search</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">narrowtech.com.au</div>
+        <div class="result-body">
+          <div class="result-site">narrowtech.com.au</div>
 
-        <div class="metric">
-          <b data-count="186" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Organic traffic</small>
-        </div>
-        <p>Search visibility rebuilt across every core service page.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Website</span>
-            <span>Technical SEO</span>
-            <span>Content</span>
+          <div class="metric">
+            <b data-count="186" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+            <small>Organic traffic</small>
           </div>
-          <div class="result-extra">
-          <div><b>24</b><small>Pages ranking</small></div>
-          <div><b>3.4×</b><small>Time on site</small></div>
+          <p>Search visibility rebuilt across every core service page.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Website</span>
+              <span>Technical SEO</span>
+              <span>Content</span>
+            </div>
+            <div class="result-extra">
+            <div><b>24</b><small>Pages ranking</small></div>
+            <div><b>3.4×</b><small>Time on site</small></div>
+            </div>
           </div>
         </div>
       </a>
 
       <a class="result rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="ultrafinishroofing.com.au">
+          <img src="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Ultra Finish Roofing job in progress" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Local SEO</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">ultrafinishroofing.com.au</div>
+        <div class="result-body">
+          <div class="result-site">ultrafinishroofing.com.au</div>
 
-        <div class="metric">
-          <b data-count="240" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Quote requests</small>
-        </div>
-        <p>Roof restoration leads, measured year on year.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Website</span>
-            <span>Local SEO</span>
-            <span>Photography</span>
+          <div class="metric">
+            <b data-count="240" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+            <small>Quote requests</small>
           </div>
-          <div class="result-extra">
-          <div><b>62</b><small>Suburb pages</small></div>
-          <div><b>2.1s</b><small>Load time</small></div>
+          <p>Roof restoration leads, measured year on year.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Website</span>
+              <span>Local SEO</span>
+              <span>Photography</span>
+            </div>
+            <div class="result-extra">
+            <div><b>62</b><small>Suburb pages</small></div>
+            <div><b>2.1s</b><small>Load time</small></div>
+            </div>
           </div>
         </div>
       </a>
 
       <a class="result rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="precisionpaintingaus.com.au">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Precision Painting finished interior" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Paid search</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">precisionpaintingaus.com.au</div>
+        <div class="result-body">
+          <div class="result-site">precisionpaintingaus.com.au</div>
 
-        <div class="metric">
-          <b data-count="4.2" data-prefix="" data-suffix="×" data-decimals="1">0×</b>
-          <small>Return on ad spend</small>
-        </div>
-        <p>Across paid search and local service campaigns.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Google Ads</span>
-            <span>Landing pages</span>
-            <span>Call tracking</span>
+          <div class="metric">
+            <b data-count="4.2" data-prefix="" data-suffix="×" data-decimals="1">0×</b>
+            <small>Return on ad spend</small>
           </div>
-          <div class="result-extra">
-          <div><b>$41</b><small>Cost per lead</small></div>
-          <div><b>312</b><small>Tracked calls</small></div>
+          <p>Across paid search and local service campaigns.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Google Ads</span>
+              <span>Landing pages</span>
+              <span>Call tracking</span>
+            </div>
+            <div class="result-extra">
+            <div><b>$41</b><small>Cost per lead</small></div>
+            <div><b>312</b><small>Tracked calls</small></div>
+            </div>
           </div>
         </div>
       </a>
 
       <a class="result rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="buildmarque.com.au">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Buildmarque project under construction" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Brand + website</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">buildmarque.com.au</div>
+        <div class="result-body">
+          <div class="result-site">buildmarque.com.au</div>
 
-        <div class="metric">
-          <b data-count="97" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Conversion rate</small>
-        </div>
-        <p>Visitors who go on to make an enquiry, before and after.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Branding</span>
-            <span>Website</span>
-            <span>Copywriting</span>
+          <div class="metric">
+            <b data-count="97" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+            <small>Conversion rate</small>
           </div>
-          <div class="result-extra">
-          <div><b>4 wks</b><small>Start to live</small></div>
-          <div><b>1.6s</b><small>Load time</small></div>
+          <p>Visitors who go on to make an enquiry, before and after.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Branding</span>
+              <span>Website</span>
+              <span>Copywriting</span>
+            </div>
+            <div class="result-extra">
+            <div><b>4 wks</b><small>Start to live</small></div>
+            <div><b>1.6s</b><small>Load time</small></div>
+            </div>
           </div>
         </div>
       </a>
 
       <a class="result rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
+        <figure class="ph result-shot" data-label="buildingpropertyinspections.com.au">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&amp;fit=crop&amp;w=760&amp;q=72" alt="Building and Property Inspections site visit" loading="lazy" decoding="async">
         <div class="result-top">
           <span class="result-chip">Online bookings</span>
           <span class="result-visit" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
           </span>
         </div>
+        </figure>
 
-        <div class="result-site">buildingpropertyinspections.com.au</div>
+        <div class="result-body">
+          <div class="result-site">buildingpropertyinspections.com.au</div>
 
-        <div class="metric">
-          <b data-count="154" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Booked inspections</small>
-        </div>
-        <p>Inspections booked online since the new site went live.</p>
-
-        <div class="result-did">
-          <span class="did-label">What we did</span>
-          <div class="did-tags">
-            <span>Website</span>
-            <span>Booking system</span>
-            <span>SEO</span>
+          <div class="metric">
+            <b data-count="154" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+            <small>Booked inspections</small>
           </div>
-          <div class="result-extra">
-          <div><b>24/7</b><small>Booking live</small></div>
-          <div><b>48%</b><small>Booked on mobile</small></div>
+          <p>Inspections booked online since the new site went live.</p>
+
+          <div class="result-did">
+            <span class="did-label">What we did</span>
+            <div class="did-tags">
+              <span>Website</span>
+              <span>Booking system</span>
+              <span>SEO</span>
+            </div>
+            <div class="result-extra">
+            <div><b>24/7</b><small>Booking live</small></div>
+            <div><b>48%</b><small>Booked on mobile</small></div>
+            </div>
           </div>
         </div>
       </a>
