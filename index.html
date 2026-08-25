@@ -404,13 +404,6 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* ============================================================
    LOGO / TRUST STRIP
    ============================================================ */
-.strip{border-block:1px solid var(--line);background:#fff;padding:22px 0}
-.strip-inner{display:grid;grid-template-columns:repeat(2,1fr);gap:18px 12px;text-align:center}
-.strip-item{display:flex;flex-direction:column;align-items:center;gap:6px}
-.strip-item .si-ic{width:34px;height:34px;display:grid;place-items:center;border-radius:10px;background:var(--grad-soft)}
-.strip-item svg{width:19px;height:19px;color:var(--red)}
-.strip-item b{font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);font-weight:700;line-height:1.2}
-.strip-item small{font-size:.72rem;color:var(--muted)}
 
 /* ============================================================
    SERVICES
@@ -468,14 +461,19 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* ============================================================
    ABOUT
    ============================================================ */
-.about-media{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:30px}
-.about-media .ph{border-radius:var(--r)}
-.about-media .tall{grid-row:span 2;aspect-ratio:3/4.4}
-.about-media .sq{aspect-ratio:1/1}
+.sect--about{background:#FCF8F6}
+.eyebrow--plain{
+  background:none;border:0;padding:0;border-radius:0;margin-bottom:14px;
+  letter-spacing:.16em;font-size:.76rem
+}
+.about-photo{aspect-ratio:4/3.4;border-radius:var(--r-lg);margin-bottom:30px}
 .about-list{list-style:none;padding:0;margin:24px 0 0;display:grid;gap:18px}
 .about-list li{display:flex;gap:14px}
-.about-list .al-ic{width:42px;height:42px;border-radius:13px;background:var(--grad);display:grid;place-items:center;flex:none;box-shadow:0 10px 20px -12px rgba(242,64,79,.7)}
-.about-list .al-ic svg{width:20px;height:20px;color:#fff}
+.about-list .al-tick{
+  width:28px;height:28px;border-radius:50%;background:var(--grad);display:grid;place-items:center;
+  flex:none;margin-top:1px;box-shadow:0 8px 16px -10px rgba(242,64,79,.8)
+}
+.about-list .al-tick svg{width:15px;height:15px;color:#fff}
 .about-list h4{font-family:'Outfit',sans-serif;font-size:1.02rem;color:var(--ink);margin:0 0 3px;font-weight:700}
 .about-list p{font-size:.9rem}
 
@@ -671,7 +669,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 @media (min-width:640px){
   .hero-actions{grid-template-columns:auto auto;justify-content:start}
   .grid-2{grid-template-columns:1fr 1fr;gap:0 11px}
-  .strip-inner{grid-template-columns:repeat(4,1fr)}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .steps{grid-template-columns:repeat(2,1fr)}
   .stats{grid-template-columns:repeat(4,1fr)}
@@ -707,9 +704,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .bm-item{padding:0 44px}
   .svc-grid{grid-template-columns:repeat(3,1fr);gap:20px}
   .steps{grid-template-columns:repeat(4,1fr)}
-  .about-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
-  .about-media{margin-bottom:0;align-items:stretch}
-  .about-media .tall{aspect-ratio:auto;height:100%}
+  .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  .about-photo{margin-bottom:0;aspect-ratio:4/3.6}
   .gallery{grid-template-columns:repeat(4,1fr);gap:14px}
   .gal--wide{grid-column:span 2}
   .reviews{grid-template-columns:repeat(3,1fr);gap:20px}
@@ -737,7 +733,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .mq{height:600px}
   .mqcard{width:352px;margin-right:22px}
   .about-wrap{gap:76px}
-  .about-media .sq{aspect-ratio:4/3}
   .team .ph{max-height:560px}
   .svc-grid{gap:26px}
   .gallery{gap:18px}
@@ -1135,29 +1130,74 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   </div>
 </section>
 
-<!-- ================= TRUST STRIP ================= -->
-<div class="strip">
+<!-- ================= ABOUT ================= -->
+<section class="sect sect--about" id="about">
   <div class="wrap">
-    <div class="strip-inner">
-      <div class="strip-item rv">
-        <span class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg></span>
-        <b>Trades only</b><small>It's all we do</small>
+    <div class="about-wrap">
+      <div class="rv">
+        <span class="eyebrow eyebrow--plain">About DM Tradies</span>
+        <h2>Built by a team that actually gets trades</h2>
+        <p class="lead" style="margin-top:16px">Digital Movement has built websites for Australian businesses for over a decade. We noticed tradies kept getting sold templated sites by agencies who'd never set foot on a job site — so we built a division just for trades. Same team, same standards, one industry.</p>
+
+        <ul class="about-list">
+          <li>
+            <span class="al-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div><h4>We only work with trades</h4><p>Every site we build is for a plumber, sparky, builder, roofer or painter — we already know what your customers search for.</p></div>
+          </li>
+          <li>
+            <span class="al-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div><h4>Fixed pricing, no lock-in</h4><p>You get the full price in writing before we start, and you're never tied into a contract.</p></div>
+          </li>
+          <li>
+            <span class="al-tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4 4L19 7"/></svg></span>
+            <div><h4>You own everything</h4><p>Your site, domain, hosting and ad accounts are all in your name from day one — no hostage situations.</p></div>
+          </li>
+        </ul>
+
+        <div class="hero-actions" style="margin-top:28px;margin-bottom:0">
+          <a class="btn btn--primary" href="#contact">Talk to our team <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+          <a class="btn btn--ghost" href="#projects">See our work</a>
+        </div>
       </div>
-      <div class="strip-item rv">
-        <span class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-        <b>Fixed pricing</b><small>No lock-in contracts</small>
+
+      <figure class="ph about-photo rv" data-label="DM Tradies team at work">
+        <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=900&amp;q=75" alt="The DM Tradies team at work with a trade client" loading="lazy" decoding="async">
+      </figure>
+    </div>
+
+    <!-- stats -->
+    <div class="stats rv">
+      <div class="stat"><b data-count="12" data-suffix="+">0</b><small>Years in business</small></div>
+      <div class="stat"><b data-count="180" data-suffix="+">0</b><small>Trade websites built</small></div>
+      <div class="stat"><b data-count="16" data-suffix="">0</b><small>People on the team</small></div>
+      <div class="stat"><b data-count="94" data-suffix="%">0</b><small>Clients still with us</small></div>
+    </div>
+
+    <!-- team -->
+    <div class="head center rv" style="margin-top:clamp(48px,7vw,80px);margin-bottom:22px">
+      <h2>Meet a few of the team</h2>
+      <p class="lead" style="margin-inline:auto">No account managers passing you around. You deal with the people doing the work.</p>
+    </div>
+    <div class="team-grid rv">
+      <div class="team">
+        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Dave M, Director at Digital Movement" loading="lazy" decoding="async"></figure>
+        <div class="team-info"><b>Dave M.</b><small>Director, Digital Movement</small></div>
       </div>
-      <div class="strip-item rv">
-        <span class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <b>Live in 4 weeks</b><small>Kickoff to launch</small>
+      <div class="team">
+        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Mel R, Client Services Lead" loading="lazy" decoding="async"></figure>
+        <div class="team-info"><b>Mel R.</b><small>Client Services Lead</small></div>
       </div>
-      <div class="strip-item rv">
-        <span class="si-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg></span>
-        <b>You own it all</b><small>Site, domain and data</small>
+      <div class="team">
+        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Sam T, Lead Developer" loading="lazy" decoding="async"></figure>
+        <div class="team-info"><b>Sam T.</b><small>Lead Developer</small></div>
+      </div>
+      <div class="team">
+        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Jess K, SEO and Ads Specialist" loading="lazy" decoding="async"></figure>
+        <div class="team-info"><b>Jess K.</b><small>SEO &amp; Ads Specialist</small></div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <!-- ================= CLIENT RESULTS =================
      NOTE: the figures below are PLACEHOLDER numbers for layout only.
@@ -1406,83 +1446,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
         Get my free website review
       </a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= ABOUT ================= -->
-<section class="sect" id="about">
-  <div class="wrap">
-    <div class="about-wrap">
-      <div class="about-media rv">
-        <figure class="ph tall" data-label="Our team on site">
-          <img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&amp;fit=crop&amp;w=700&amp;q=72" alt="DM Tradies team at a residential job site" loading="lazy" decoding="async">
-        </figure>
-        <figure class="ph sq" data-label="Tools of the trade">
-          <img src="https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&amp;fit=crop&amp;w=600&amp;q=72" alt="Trade tools laid out on a workbench" loading="lazy" decoding="async">
-        </figure>
-        <figure class="ph sq" data-label="Quality finish">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=600&amp;q=72" alt="Finished renovation interior" loading="lazy" decoding="async">
-        </figure>
-      </div>
-
-      <div class="rv">
-        <span class="eyebrow"><span class="dot"></span>About DM Tradies</span>
-        <h2>The trade division of Digital Movement.</h2>
-        <p class="lead" style="margin-top:16px">Digital Movement has been building websites for Australian businesses for over a decade. Somewhere along the way we noticed the same thing again and again: tradies were being sold templated sites by agencies who'd never set foot on a job site. So we built a division just for the trades — same team, same standards, one industry.</p>
-
-        <ul class="about-list">
-          <li>
-            <span class="al-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></span>
-            <div><h4>We only work with trades</h4><p>Every site we build is for a plumber, sparky, builder, roofer or painter. We already know what your customers search for and what makes them call.</p></div>
-          </li>
-          <li>
-            <span class="al-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-            <div><h4>Fixed pricing, no lock-in</h4><p>You get the full price in writing before we start, and you're never tied into a contract. If we're not earning our keep, you can walk.</p></div>
-          </li>
-          <li>
-            <span class="al-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-6h4v6"/></svg></span>
-            <div><h4>You own everything</h4><p>Your site, your domain, your hosting, your data, your ad accounts. All in your name from day one — no hostage situations if you ever leave.</p></div>
-          </li>
-        </ul>
-
-        <div class="hero-actions" style="margin-top:28px;margin-bottom:0">
-          <a class="btn btn--primary" href="#contact">Talk to our team <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="btn btn--ghost" href="#projects">See our work</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- stats -->
-    <div class="stats rv">
-      <div class="stat"><b data-count="12" data-suffix="+">0</b><small>Years in business</small></div>
-      <div class="stat"><b data-count="180" data-suffix="+">0</b><small>Trade websites built</small></div>
-      <div class="stat"><b data-count="16" data-suffix="">0</b><small>People on the team</small></div>
-      <div class="stat"><b data-count="94" data-suffix="%">0</b><small>Clients still with us</small></div>
-    </div>
-
-    <!-- team -->
-    <div class="head center rv" style="margin-top:clamp(48px,7vw,80px);margin-bottom:22px">
-      <h2>Meet a few of the team</h2>
-      <p class="lead" style="margin-inline:auto">No account managers passing you around. You deal with the people doing the work.</p>
-    </div>
-    <div class="team-grid rv">
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Dave M, Director at Digital Movement" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Dave M.</b><small>Director, Digital Movement</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Mel R, Client Services Lead" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Mel R.</b><small>Client Services Lead</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Sam T, Lead Developer" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Sam T.</b><small>Lead Developer</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Jess K, SEO and Ads Specialist" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Jess K.</b><small>SEO &amp; Ads Specialist</small></div>
-      </div>
     </div>
   </div>
 </section>
