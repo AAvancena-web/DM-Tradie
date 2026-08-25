@@ -333,9 +333,48 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* quote form card */
 .quote-card{
   background:#fff;border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:22px 20px;box-shadow:var(--shadow-lg);
+  padding:26px 20px 22px;box-shadow:0 34px 70px -34px rgba(20,24,31,.4);position:relative;overflow:hidden;
 }
-.quote-band{background:var(--bg);padding:clamp(26px,4.5vw,42px) 0}
+/* the form band sits between a dark hero and white sections — it needs its own ground */
+.quote-band{
+  position:relative;overflow:hidden;padding:clamp(38px,6vw,62px) 0;
+  background:linear-gradient(180deg,#FFF4EC 0%,#FDF7F4 58%,#FAF8F7 100%);
+  border-bottom:1px solid var(--line);
+}
+.quote-band::before{
+  content:"";position:absolute;top:-160px;left:50%;transform:translateX(-50%);
+  width:min(120vw,1100px);height:340px;border-radius:50%;
+  background:radial-gradient(circle,rgba(242,64,79,.16) 0%,rgba(242,64,79,0) 68%);
+  filter:blur(50px);pointer-events:none;
+}
+.quote-band .wrap{position:relative;z-index:1}
+
+/* gradient rail across the top of the card */
+.quote-card::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:5px;background:var(--grad);
+  border-radius:var(--r-lg) var(--r-lg) 0 0;
+}
+.qc-grid{display:grid;gap:26px}
+.qc-pitch h2{font-size:clamp(1.5rem,5vw,2.1rem);margin-bottom:10px}
+.qc-pitch p{font-size:.96rem;margin-bottom:18px}
+.qc-points{list-style:none;padding:0;margin:0;display:grid;gap:11px}
+.qc-points li{position:relative;padding-left:30px;font-size:.92rem;font-weight:600;color:var(--ink-2)}
+.qc-points li::before{
+  content:"";position:absolute;left:0;top:.05em;width:20px;height:20px;border-radius:50%;background:var(--grad);
+}
+.qc-points li::after{
+  content:"";position:absolute;left:6px;top:.42em;width:7px;height:4px;
+  border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg);
+}
+.qc-panel{
+  background:var(--soft);border:1px solid var(--line);border-radius:var(--r);padding:20px 18px;
+}
+.qc-callback{
+  display:flex;align-items:center;gap:10px;margin-top:16px;padding-top:16px;
+  border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)
+}
+.qc-callback a{font-weight:800;color:var(--red);white-space:nowrap}
+.qc-callback svg{width:17px;height:17px;color:var(--red);flex:none}
 .quote-card .qc-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
 .qc-icon{width:42px;height:42px;border-radius:13px;background:var(--grad);display:grid;place-items:center;flex:none}
 .qc-icon svg{width:21px;height:21px;color:#fff}
@@ -671,9 +710,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .hero .hero-inner > *{min-width:0}
   .hero-media{margin-bottom:0}
   .mq{height:500px}
-  .quote-card{padding:26px 28px}
-  .quote-card .qc-form-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0 12px;align-items:end}
-  .quote-card .qc-form-grid .btn{margin-bottom:11px}
+  .quote-card{padding:38px 40px 34px}
+  .qc-grid{grid-template-columns:1fr 1.12fr;gap:48px;align-items:center}
+  .qc-panel{padding:26px 24px}
+  .quote-card .qc-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+  .quote-card .qc-form-grid .qc-wide{grid-column:1 / -1}
   .svc-grid{grid-template-columns:repeat(3,1fr);gap:20px}
   .steps{grid-template-columns:repeat(4,1fr)}
   .about-wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:56px;align-items:center}
@@ -1044,19 +1085,23 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 </section>
 
 <!-- ================= QUOTE FORM ================= -->
-<section class="quote-band">
+<section class="quote-band" id="quote">
   <div class="wrap">
-  <div class="quote-card rv" id="quote">
-    <div class="qc-top">
-      <span class="qc-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6"/><path d="M9 11h3"/></svg>
-      </span>
-      <div>
-        <h3>Get a free website review</h3>
-        <p class="qc-sub">Tell us about your business — we'll send back an honest review of your site within 2 business days.</p>
-      </div>
-    </div>
+  <div class="quote-card rv">
+    <div class="qc-grid">
 
+      <div class="qc-pitch">
+        <span class="eyebrow"><span class="dot"></span>Free · No obligation</span>
+        <h2>See exactly what's costing you leads.</h2>
+        <p>Send us your site and we'll go through it properly — speed, mobile, Google, and the path a customer takes to actually call you.</p>
+        <ul class="qc-points">
+          <li>Honest, specific feedback — not a sales deck</li>
+          <li>Back with you within 2 business days</li>
+          <li>Yours to keep, whether you hire us or not</li>
+        </ul>
+      </div>
+
+      <div class="qc-panel">
     <form class="quote-form" novalidate>
       <div class="form-body">
         <div class="qc-form-grid">
@@ -1070,7 +1115,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
             <input id="q-phone" name="phone" type="tel" placeholder="0400 000 000" autocomplete="tel" required>
             <span class="msg">Please enter a valid phone number</span>
           </div>
-          <div class="field">
+          <div class="field qc-wide">
             <label for="q-service">What are you after?</label>
             <select id="q-service" name="service" required>
               <option value="">Select a service…</option>
@@ -1084,7 +1129,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
             </select>
             <span class="msg">Please choose a service</span>
           </div>
-          <button class="btn btn--primary btn--block" type="submit">
+          <button class="btn btn--primary btn--block qc-wide" type="submit">
             Send me my free review
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
           </button>
@@ -1097,6 +1142,14 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
         <p class="qc-sub">We'll get your website review over within 2 business days. Want to talk sooner? Call <a href="tel:1300878233"><b>1300 878 233</b></a>.</p>
       </div>
     </form>
+
+        <div class="qc-callback">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z"/></svg>
+          <span>Rather talk it through? <a href="tel:1300878233">1300 878 233</a></span>
+        </div>
+      </div>
+
+    </div>
   </div>
   </div>
 </section>
