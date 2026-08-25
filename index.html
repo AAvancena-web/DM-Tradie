@@ -297,23 +297,7 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 }
 .mq-meta{position:relative;z-index:1}
 .mq-meta .k{font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;opacity:.8;font-weight:600}
-/* on a dark photo a logo can disappear, so it sits on a white pad */
-.mqlogo{
-  display:inline-flex;align-items:center;justify-content:center;
-  background:#fff;border-radius:12px;padding:9px 13px;margin-bottom:11px;
-  min-height:44px;min-width:70px;box-shadow:0 10px 22px -12px rgba(0,0,0,.6)
-}
-.mqlogo img{
-  max-height:26px;max-width:128px;width:auto;height:auto;object-fit:contain;
-  opacity:0;transition:opacity .35s ease
-}
-.mqlogo img.is-ok{opacity:1}
-.mqlogo-txt{
-  display:none;font-family:'Outfit',sans-serif;font-weight:800;font-size:.92rem;
-  letter-spacing:-.02em;color:var(--ink);white-space:nowrap
-}
-.mqlogo.is-fail img{display:none}
-.mqlogo.is-fail .mqlogo-txt{display:block}
+.mq-meta .nm{font-family:'Outfit',sans-serif;font-size:1.18rem;font-weight:800;margin-top:3px;letter-spacing:-.02em}
 .mq-meta .res{
   display:inline-flex;align-items:center;gap:7px;margin-top:10px;font-size:.78rem;font-weight:700;
   background:rgba(255,255,255,.18);backdrop-filter:blur(6px);padding:6px 12px;border-radius:999px
@@ -335,14 +319,13 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
    BRANDS STRIP — scrolls right to left
    ============================================================ */
 .brands-band{
-  background:linear-gradient(180deg,#F7F1EC 0%,#F4EEE9 100%);
-  border-bottom:1px solid var(--line);
+  background:#0F1218;
   padding:clamp(34px,5vw,58px) 0;overflow:hidden;
 }
 .brands-label{
   text-align:center;font-family:'Outfit',sans-serif;font-weight:700;
   font-size:clamp(.72rem,2.4vw,.82rem);letter-spacing:.17em;text-transform:uppercase;
-  color:#9A8F88;margin-bottom:clamp(22px,3.5vw,36px);
+  color:#7B8494;margin-bottom:clamp(22px,3.5vw,36px);
 }
 .bm{
   position:relative;overflow:hidden;
@@ -358,17 +341,17 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
   width:clamp(190px,26vw,300px);height:clamp(68px,9vw,104px);
   padding:0 clamp(18px,3vw,38px);
 }
-/* these logos are a mix of dark and white artwork, so they are normalised to
-   one silhouette — otherwise the white ones vanish on a light background */
+/* the six files are a mix of dark and white artwork — inverting them all to
+   white is the only way every brand reads on the dark band */
 .bm-item img{
   max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
-  filter:brightness(0);opacity:0;transition:opacity .35s ease;
+  filter:brightness(0) invert(1);opacity:0;transition:opacity .35s ease;
 }
-.bm-item img.is-ok{opacity:.55}
-.bm-item:hover img.is-ok{opacity:.9}
+.bm-item img.is-ok{opacity:.72}
+.bm-item:hover img.is-ok{opacity:1}
 .bm-txt{
   display:none;font-family:'Outfit',sans-serif;font-weight:800;font-size:1rem;
-  color:var(--ink-2);text-align:center;line-height:1.2;opacity:.6
+  color:#E3E7EE;text-align:center;line-height:1.2;opacity:.8
 }
 .bm-item.is-fail img{display:none}
 .bm-item.is-fail .bm-txt{display:block}
@@ -484,14 +467,6 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 .stat small{font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.02em}
 
 /* team */
-.team-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin-top:34px}
-.team{border-radius:var(--r);overflow:hidden;position:relative;background:var(--ink)}
-.team .ph{border-radius:0;aspect-ratio:3/4}
-.team-info{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:34px 14px 14px;
-  background:linear-gradient(to top,rgba(15,18,24,.92),transparent)}
-.team-info b{display:block;font-family:'Outfit',sans-serif;color:#fff;font-size:.95rem;font-weight:700}
-.team-info small{color:var(--amber);font-size:.75rem;font-weight:600}
-
 /* ============================================================
    PROCESS
    ============================================================ */
@@ -511,17 +486,6 @@ header.site:not(.stuck) .burger.open i{background:var(--ink)}
 /* ============================================================
    PROJECTS
    ============================================================ */
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.gal{position:relative;border-radius:var(--r);overflow:hidden}
-.gal .ph{border-radius:0}
-.gal .cap{
-  position:absolute;inset:auto 0 0 0;z-index:3;padding:28px 12px 11px;
-  background:linear-gradient(to top,rgba(15,18,24,.9),transparent);
-  color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:.82rem;line-height:1.3
-}
-.gal .cap small{display:block;color:var(--amber);font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
-.gal--wide{grid-column:span 2}
-
 /* ============================================================
    TESTIMONIALS
    ============================================================ */
@@ -672,7 +636,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .svc-grid{grid-template-columns:repeat(2,1fr)}
   .steps{grid-template-columns:repeat(2,1fr)}
   .stats{grid-template-columns:repeat(4,1fr)}
-  .team-grid{grid-template-columns:repeat(4,1fr)}
   .reviews{grid-template-columns:repeat(2,1fr)}
   .rating-row{flex-direction:row;justify-content:center;gap:26px;text-align:left}
   .f-grid{grid-template-columns:repeat(2,1fr)}
@@ -706,8 +669,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .steps{grid-template-columns:repeat(4,1fr)}
   .about-wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
   .about-photo{margin-bottom:0;aspect-ratio:4/3.6}
-  .gallery{grid-template-columns:repeat(4,1fr);gap:14px}
-  .gal--wide{grid-column:span 2}
   .reviews{grid-template-columns:repeat(3,1fr);gap:20px}
   .faq-wrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start}
   .faq-wrap .head{margin-bottom:0;position:sticky;top:110px}
@@ -733,9 +694,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   .mq{height:600px}
   .mqcard{width:352px;margin-right:22px}
   .about-wrap{gap:76px}
-  .team .ph{max-height:560px}
   .svc-grid{gap:26px}
-  .gallery{gap:18px}
   .faq-wrap{gap:84px}
   .contact-grid{gap:72px}
 }
@@ -841,9 +800,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
     <a class="dl" href="#home">Home <span>01</span></a>
     <a class="dl" href="#about">About <span>02</span></a>
     <a class="dl" href="#services">Services <span>03</span></a>
-    <a class="dl" href="#projects">Our work <span>04</span></a>
-    <a class="dl" href="#faq">FAQs <span>05</span></a>
-    <a class="dl" href="#contact">Contact <span>06</span></a>
+    <a class="dl" href="#faq">FAQs <span>04</span></a>
+    <a class="dl" href="#contact">Contact <span>05</span></a>
     <div class="drawer-foot">
       <a class="btn btn--primary btn--block" href="#contact">Free website review</a>
       <a class="btn btn--ghost btn--block" href="tel:1300878233">Call 1300 878 233</a>
@@ -899,11 +857,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
-                  <span class="mqlogo-txt">MW Homes</span>
-                </span>
                 <div class="k">mwhomes.com.au</div>
+                <div class="nm">MW Homes</div>
                 <span class="res"><span class="rdot"></span>+312% enquiries</span>
               </div>
             </a>
@@ -913,11 +868,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">N</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" decoding="async">
-                  <span class="mqlogo-txt">Narrow Tech</span>
-                </span>
                 <div class="k">narrowtech.com.au</div>
+                <div class="nm">Narrow Tech</div>
                 <span class="res"><span class="rdot"></span>+186% organic traffic</span>
               </div>
             </a>
@@ -927,11 +879,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">U</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
-                  <span class="mqlogo-txt">Ultra Finish Roofing</span>
-                </span>
                 <div class="k">ultrafinishroofing.com.au</div>
+                <div class="nm">Ultra Finish Roofing</div>
                 <span class="res"><span class="rdot"></span>+240% quote requests</span>
               </div>
             </a>
@@ -941,11 +890,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">P</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
-                  <span class="mqlogo-txt">Precision Painting</span>
-                </span>
                 <div class="k">precisionpaintingaus.com.au</div>
+                <div class="nm">Precision Painting</div>
                 <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
               </div>
             </a>
@@ -955,11 +901,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
-                  <span class="mqlogo-txt">Buildmarque</span>
-                </span>
                 <div class="k">buildmarque.com.au</div>
+                <div class="nm">Buildmarque</div>
                 <span class="res"><span class="rdot"></span>+97% conversion rate</span>
               </div>
             </a>
@@ -969,11 +912,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
-                  <span class="mqlogo-txt">Building &amp; Property Inspections</span>
-                </span>
                 <div class="k">buildingpropertyinspections.com.au</div>
+                <div class="nm">Building &amp; Property Inspections</div>
                 <span class="res"><span class="rdot"></span>+154% booked inspections</span>
               </div>
             </a>
@@ -984,11 +924,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">M</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
-                  <span class="mqlogo-txt">MW Homes</span>
-                </span>
                 <div class="k">mwhomes.com.au</div>
+                <div class="nm">MW Homes</div>
                 <span class="res"><span class="rdot"></span>+312% enquiries</span>
               </div>
             </a>
@@ -998,11 +935,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">N</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" decoding="async">
-                  <span class="mqlogo-txt">Narrow Tech</span>
-                </span>
                 <div class="k">narrowtech.com.au</div>
+                <div class="nm">Narrow Tech</div>
                 <span class="res"><span class="rdot"></span>+186% organic traffic</span>
               </div>
             </a>
@@ -1012,11 +946,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">U</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
-                  <span class="mqlogo-txt">Ultra Finish Roofing</span>
-                </span>
                 <div class="k">ultrafinishroofing.com.au</div>
+                <div class="nm">Ultra Finish Roofing</div>
                 <span class="res"><span class="rdot"></span>+240% quote requests</span>
               </div>
             </a>
@@ -1026,11 +957,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">P</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
-                  <span class="mqlogo-txt">Precision Painting</span>
-                </span>
                 <div class="k">precisionpaintingaus.com.au</div>
+                <div class="nm">Precision Painting</div>
                 <span class="res"><span class="rdot"></span>4.2× return on ad spend</span>
               </div>
             </a>
@@ -1040,11 +968,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
-                  <span class="mqlogo-txt">Buildmarque</span>
-                </span>
                 <div class="k">buildmarque.com.au</div>
+                <div class="nm">Buildmarque</div>
                 <span class="res"><span class="rdot"></span>+97% conversion rate</span>
               </div>
             </a>
@@ -1054,11 +979,8 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
               </figure>
               <span class="wm" aria-hidden="true">B</span>
               <div class="mq-meta">
-                <span class="mqlogo">
-                  <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
-                  <span class="mqlogo-txt">Building &amp; Property Inspections</span>
-                </span>
                 <div class="k">buildingpropertyinspections.com.au</div>
+                <div class="nm">Building &amp; Property Inspections</div>
                 <span class="res"><span class="rdot"></span>+154% booked inspections</span>
               </div>
             </a>
@@ -1156,7 +1078,7 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
 
         <div class="hero-actions" style="margin-top:28px;margin-bottom:0">
           <a class="btn btn--primary" href="#contact">Talk to our team <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
-          <a class="btn btn--ghost" href="#projects">See our work</a>
+          <a class="btn btn--ghost" href="#results">See our results</a>
         </div>
       </div>
 
@@ -1173,149 +1095,11 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       <div class="stat"><b data-count="94" data-suffix="%">0</b><small>Clients still with us</small></div>
     </div>
 
-    <!-- team -->
-    <div class="head center rv" style="margin-top:clamp(48px,7vw,80px);margin-bottom:22px">
-      <h2>Meet a few of the team</h2>
-      <p class="lead" style="margin-inline:auto">No account managers passing you around. You deal with the people doing the work.</p>
-    </div>
-    <div class="team-grid rv">
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Dave M, Director at Digital Movement" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Dave M.</b><small>Director, Digital Movement</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Mel R, Client Services Lead" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Mel R.</b><small>Client Services Lead</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Sam T, Lead Developer" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Sam T.</b><small>Lead Developer</small></div>
-      </div>
-      <div class="team">
-        <figure class="ph" data-label="Team member"><img src="https://images.unsplash.com/photo-1595152772835-219674b2a8a6?auto=format&amp;fit=crop&amp;w=520&amp;q=72" alt="Jess K, SEO and Ads Specialist" loading="lazy" decoding="async"></figure>
-        <div class="team-info"><b>Jess K.</b><small>SEO &amp; Ads Specialist</small></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= CLIENT RESULTS =================
-     NOTE: the figures below are PLACEHOLDER numbers for layout only.
-     Replace with verified reporting data before this page goes live.
-     ============================================================ -->
-<section class="sect sect--soft" id="results">
-  <div class="wrap">
-    <div class="head center results-head rv">
-      <span class="eyebrow"><span class="dot"></span>Proven results</span>
-      <h2>Numbers that turn up, too.</h2>
-      <p class="lead" style="margin-inline:auto">A snapshot of what we've delivered for the trade businesses we work with.</p>
-    </div>
-
-    <div class="results-grid">
-      <a class="result rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">MW Homes</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="312" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Enquiries</small>
-        </div>
-        <p>New home build enquiries, 12 months on</p>
-      </a>
-      <a class="result rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">Narrow Tech</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="186" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Organic traffic</small>
-        </div>
-        <p>Search visibility across core service pages</p>
-      </a>
-      <a class="result rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">Ultra Finish Roofing</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="240" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Quote requests</small>
-        </div>
-        <p>Roof restoration leads, year on year</p>
-      </a>
-      <a class="result rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">Precision Painting</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="4.2" data-prefix="" data-suffix="×" data-decimals="1">0×</b>
-          <small>Return on ad spend</small>
-        </div>
-        <p>Across paid search and local campaigns</p>
-      </a>
-      <a class="result rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">Buildmarque</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="97" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Conversion rate</small>
-        </div>
-        <p>Visitors who go on to make an enquiry</p>
-      </a>
-      <a class="result rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
-        <div class="result-top">
-          <span class="blogo">
-            <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" loading="lazy" decoding="async">
-            <span class="blogo-txt">Building &amp; Property Inspections</span>
-          </span>
-          <span class="result-visit" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
-          </span>
-        </div>
-        <div class="metric">
-          <b data-count="154" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
-          <small>Booked inspections</small>
-        </div>
-        <p>Online bookings since launch</p>
-      </a>
-    </div>
-
-    <p class="results-fine rv">Figures shown are placeholder examples pending final reporting data.</p>
   </div>
 </section>
 
 <!-- ================= SERVICES ================= -->
-<section class="sect sect--soft" id="services">
+<section class="sect" id="services">
   <div class="wrap">
     <div class="head center rv">
       <span class="eyebrow"><span class="dot"></span>What we do</span>
@@ -1450,8 +1234,123 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   </div>
 </section>
 
+<!-- ================= CLIENT RESULTS =================
+     NOTE: the figures below are PLACEHOLDER numbers for layout only.
+     Replace with verified reporting data before this page goes live.
+     ============================================================ -->
+<section class="sect sect--soft" id="results">
+  <div class="wrap">
+    <div class="head center results-head rv">
+      <span class="eyebrow"><span class="dot"></span>Proven results</span>
+      <h2>Numbers that turn up, too.</h2>
+      <p class="lead" style="margin-inline:auto">A snapshot of what we've delivered for the trade businesses we work with.</p>
+    </div>
+
+    <div class="results-grid">
+      <a class="result rv" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">MW Homes</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="312" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Enquiries</small>
+        </div>
+        <p>New home build enquiries, 12 months on</p>
+      </a>
+      <a class="result rv" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrow Tech logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Narrow Tech</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="186" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Organic traffic</small>
+        </div>
+        <p>Search visibility across core service pages</p>
+      </a>
+      <a class="result rv" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Ultra Finish Roofing</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="240" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Quote requests</small>
+        </div>
+        <p>Roof restoration leads, year on year</p>
+      </a>
+      <a class="result rv" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Precision Painting</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="4.2" data-prefix="" data-suffix="×" data-decimals="1">0×</b>
+          <small>Return on ad spend</small>
+        </div>
+        <p>Across paid search and local campaigns</p>
+      </a>
+      <a class="result rv" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Buildmarque</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="97" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Conversion rate</small>
+        </div>
+        <p>Visitors who go on to make an enquiry</p>
+      </a>
+      <a class="result rv" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
+        <div class="result-top">
+          <span class="blogo">
+            <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" loading="lazy" decoding="async">
+            <span class="blogo-txt">Building &amp; Property Inspections</span>
+          </span>
+          <span class="result-visit" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+          </span>
+        </div>
+        <div class="metric">
+          <b data-count="154" data-prefix="+" data-suffix="%" data-decimals="0">+0%</b>
+          <small>Booked inspections</small>
+        </div>
+        <p>Online bookings since launch</p>
+      </a>
+    </div>
+
+    <p class="results-fine rv">Figures shown are placeholder examples pending final reporting data.</p>
+  </div>
+</section>
+
 <!-- ================= PROCESS ================= -->
-<section class="sect sect--soft">
+<section class="sect">
   <div class="wrap">
     <div class="head center rv">
       <span class="eyebrow"><span class="dot"></span>How it works</span>
@@ -1463,56 +1362,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
       <div class="step rv"><span class="num">02</span><h3>Strategy &amp; fixed quote</h3><p>We map out what your business needs and put a fixed price in writing. No obligation to proceed.</p></div>
       <div class="step rv"><span class="num">03</span><h3>Design &amp; build</h3><p>You see the design before we build it, and you sign off at every stage. Most sites go live in 4 weeks.</p></div>
       <div class="step rv"><span class="num">04</span><h3>Launch &amp; grow</h3><p>We hand over full ownership, then keep the SEO and ads running so the leads keep coming.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= PROJECTS ================= -->
-<section class="sect" id="projects">
-  <div class="wrap">
-    <div class="head center rv">
-      <span class="eyebrow"><span class="dot"></span>Recent work</span>
-      <h2>Trade businesses we've built for</h2>
-      <p class="lead" style="margin-inline:auto">A snapshot of the websites, branding and campaigns we've delivered for Australian trades.</p>
-    </div>
-
-    <div class="gallery">
-      <a class="gal gal--wide rv" href="#contact">
-        <figure class="ph r-16x9" data-label="MW Homes — full site rebuild">
-          <img src="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&amp;fit=crop&amp;w=900&amp;q=72" alt="MW Homes website on a laptop" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>New build</small>MW Homes — full site rebuild</span>
-      </a>
-      <a class="gal rv" href="#contact">
-        <figure class="ph r-1x1" data-label="Ultra Finish — site + local SEO">
-          <img src="https://images.unsplash.com/photo-1632759145351-1d592919f522?auto=format&amp;fit=crop&amp;w=700&amp;q=72" alt="Ultra Finish Roofing job in progress" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>Roofing</small>Ultra Finish — site + local SEO</span>
-      </a>
-      <a class="gal rv" href="#contact">
-        <figure class="ph r-1x1" data-label="Precision Painting — Google Ads">
-          <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&amp;fit=crop&amp;w=700&amp;q=72" alt="Precision Painting finished interior" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>Painting</small>Precision Painting — Google Ads</span>
-      </a>
-      <a class="gal rv" href="#contact">
-        <figure class="ph r-1x1" data-label="Buildmarque — brand + website">
-          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&amp;fit=crop&amp;w=700&amp;q=72" alt="Buildmarque commercial site" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>Building</small>Buildmarque — brand + website</span>
-      </a>
-      <a class="gal rv" href="#contact">
-        <figure class="ph r-1x1" data-label="Narrow Tech — SEO overhaul">
-          <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&amp;fit=crop&amp;w=700&amp;q=72" alt="Narrow Tech team on site" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>Trade services</small>Narrow Tech — SEO overhaul</span>
-      </a>
-      <a class="gal gal--wide rv" href="#contact">
-        <figure class="ph r-16x9" data-label="Building & Property Inspections — booking system">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&amp;fit=crop&amp;w=900&amp;q=72" alt="Building and Property Inspections on site" loading="lazy" decoding="async">
-        </figure>
-        <span class="cap"><small>Inspections</small>Building &amp; Property Inspections — booking system</span>
-      </a>
     </div>
   </div>
 </section>
@@ -1752,7 +1601,6 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
           <li><a href="#home">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#services">Services</a></li>
-          <li><a href="#projects">Our work</a></li>
           <li><a href="#faq">FAQs</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
@@ -1849,10 +1697,10 @@ footer.site{background:#0F1218;color:#8A93A3;padding:48px 0 0;font-size:.9rem}
   if (yr) yr.textContent = new Date().getFullYear();
 
   /* ---------- broken images fall back to the branded gradient ---------- */
-  document.querySelectorAll('.ph img, .blogo img, .mqlogo img, .bm-item img').forEach(function (img) {
+  document.querySelectorAll('.ph img, .blogo img, .bm-item img').forEach(function (img) {
     function ok() { img.classList.add('is-ok'); }
     function fail() {
-      var ph = img.closest('.ph, .blogo, .mqlogo, .bm-item');
+      var ph = img.closest('.ph, .blogo, .bm-item');
       if (ph) ph.classList.add('is-fail');
     }
     img.addEventListener('load', ok);
