@@ -152,13 +152,71 @@ header.site.stuck{
   margin-top:calc(-1 * var(--nav-h));
   padding-top:calc(var(--nav-h) + 42px);
   padding-bottom:clamp(52px,9vw,86px);
-  background:
-    radial-gradient(96% 62% at 84% 6%,rgba(251,175,67,.16) 0%,rgba(251,175,67,0) 62%),
-    radial-gradient(86% 58% at 2% 14%,rgba(242,64,79,.20) 0%,rgba(242,64,79,0) 60%),
-    radial-gradient(120% 80% at 50% 108%,rgba(244,96,63,.16) 0%,rgba(244,96,63,0) 64%),
-    var(--bg);
+  background:linear-gradient(170deg,#0E0C11 0%,#0B0A0D 55%,#120D10 100%);
 }
 .hero .wrap{position:relative;z-index:2}
+
+/* drifting brand aurora */
+.aurora{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aurora span{position:absolute;display:block;border-radius:50%;filter:blur(90px);will-change:transform}
+.aurora .a1{
+  top:-14%;right:-8%;width:min(58vw,680px);aspect-ratio:1;opacity:.5;
+  background:radial-gradient(circle,#FBAF43 0%,rgba(251,175,67,0) 68%);
+  animation:drift1 26s ease-in-out infinite alternate;
+}
+.aurora .a2{
+  top:6%;left:-16%;width:min(54vw,600px);aspect-ratio:1;opacity:.46;
+  background:radial-gradient(circle,#F2404F 0%,rgba(242,64,79,0) 68%);
+  animation:drift2 32s ease-in-out infinite alternate;
+}
+.aurora .a3{
+  bottom:-24%;left:34%;width:min(52vw,560px);aspect-ratio:1;opacity:.36;
+  background:radial-gradient(circle,#F4603F 0%,rgba(244,96,63,0) 70%);
+  animation:drift3 29s ease-in-out infinite alternate;
+}
+@keyframes drift1{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-10%,9%,0) scale(1.18)}}
+@keyframes drift2{from{transform:translate3d(0,0,0) scale(1.1)}to{transform:translate3d(13%,-7%,0) scale(.9)}}
+@keyframes drift3{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(-15%,-8%,0) scale(1.22)}}
+
+/* a slow band of colour sweeping across the top */
+.sweep{
+  position:absolute;top:-30%;left:-40%;width:70%;height:170%;z-index:0;pointer-events:none;
+  background:linear-gradient(100deg,rgba(255,255,255,0) 0%,rgba(251,175,67,.09) 45%,rgba(242,64,79,.07) 60%,rgba(255,255,255,0) 100%);
+  transform:rotate(14deg);filter:blur(30px);
+  animation:sweep 17s ease-in-out infinite;
+}
+@keyframes sweep{0%{transform:translateX(0) rotate(14deg);opacity:0}
+  12%{opacity:1}70%{opacity:1}
+  100%{transform:translateX(230%) rotate(14deg);opacity:0}}
+
+/* shooting stars */
+.shoot{
+  position:absolute;z-index:1;width:3px;height:3px;border-radius:999px;background:#fff;
+  box-shadow:0 0 9px 2px rgba(255,255,255,.65);opacity:0;pointer-events:none;
+}
+.shoot::before{
+  content:"";position:absolute;top:50%;right:2px;width:150px;height:2px;border-radius:999px;
+  transform:translateY(-50%);
+  background:linear-gradient(270deg,rgba(255,255,255,.9),rgba(255,255,255,0));
+}
+.shoot.s1{top:6%;left:74%;animation:shootFly 9s ease-in 2.5s infinite}
+.shoot.s2{top:-2%;left:96%;animation:shootFly 11s ease-in 6.5s infinite}
+.shoot.s3{top:22%;left:62%;animation:shootFly 13s ease-in 10s infinite}
+.shoot.s2::before{width:210px}
+.shoot.s3::before{width:110px;background:linear-gradient(270deg,rgba(251,175,67,.9),rgba(251,175,67,0))}
+.shoot.s3{background:#FBAF43;box-shadow:0 0 9px 2px rgba(251,175,67,.6)}
+@keyframes shootFly{
+  0%{opacity:0;transform:rotate(202deg) translateX(0)}
+  3%{opacity:1}
+  26%{opacity:1}
+  34%{opacity:0}
+  100%{opacity:0;transform:rotate(202deg) translateX(1500px)}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .aurora .a1,.aurora .a2,.aurora .a3,.sweep,.shoot{animation:none}
+  .shoot,.sweep{display:none}
+}
 
 /* starfield */
 .stars,.stars2{position:absolute;top:0;left:0;width:1px;height:1px;border-radius:50%;z-index:0;pointer-events:none}
@@ -194,6 +252,26 @@ header.site.stuck{
   font-size:clamp(.98rem,2.6vw,1.06rem);color:var(--dim);max-width:44ch;margin:0 0 30px;
 }
 .hero-sub b{color:#fff;font-weight:600}
+/* ---------- "get found on" strip ---------- */
+.found-on{
+  display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;
+  margin:0 0 28px;padding-bottom:4px;
+}
+.fo-label{
+  font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:#7E767C;white-space:nowrap;
+}
+.fo-list{display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;list-style:none;margin:0;padding:0}
+.fo-list li{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:.96rem;color:#F0EBEE;
+  letter-spacing:-.01em;white-space:nowrap;
+}
+.fo-list svg{width:19px;height:19px;flex:none}
+@media (min-width:900px){
+  .found-on{gap:14px 26px}
+  .fo-list{gap:14px 26px}
+}
 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
 .hero-trust{
   display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:28px;
@@ -374,8 +452,13 @@ header.site.stuck{
 
 <!-- ================= BANNER ================= -->
 <section class="hero" id="home">
+  <div class="aurora" aria-hidden="true"><span class="a1"></span><span class="a2"></span><span class="a3"></span></div>
+  <span class="sweep" aria-hidden="true"></span>
   <span class="stars" aria-hidden="true"></span>
   <span class="stars2" aria-hidden="true"></span>
+  <span class="shoot s1" aria-hidden="true"></span>
+  <span class="shoot s2" aria-hidden="true"></span>
+  <span class="shoot s3" aria-hidden="true"></span>
   <span class="dot-accent d1" aria-hidden="true"></span>
   <span class="dot-accent d2" aria-hidden="true"></span>
 
@@ -391,6 +474,33 @@ header.site.stuck{
         </h1>
 
         <p class="hero-sub">We don't just build websites — we build the pipeline behind them. <b>Fast sites, local SEO and leads that actually call.</b></p>
+
+        <div class="found-on">
+          <span class="fo-label">Get found on</span>
+          <ul class="fo-list">
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg>
+              Google
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <defs><linearGradient id="gem" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#4E8DF5"/><stop offset="52%" stop-color="#9C6FD6"/><stop offset="100%" stop-color="#D96BA0"/>
+                </linearGradient></defs>
+                <path fill="url(#gem)" d="M12 0c0 6.63 5.37 12 12 12-6.63 0-12 5.37-12 12 0-6.63-5.37-12-12-12C6.63 12 12 6.63 12 0z"/>
+              </svg>
+              Gemini
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#ffffff" d="M22.28 9.82a5.98 5.98 0 0 0-.51-4.91 6.05 6.05 0 0 0-6.51-2.9A6.07 6.07 0 0 0 4.98 4.18a5.98 5.98 0 0 0-4 2.9 6.05 6.05 0 0 0 .75 7.1 5.98 5.98 0 0 0 .51 4.91 6.05 6.05 0 0 0 6.51 2.9A5.98 5.98 0 0 0 13.26 24a6.06 6.06 0 0 0 5.77-4.21 5.99 5.99 0 0 0 4-2.9 6.06 6.06 0 0 0-.75-7.07zm-9.02 12.61a4.48 4.48 0 0 1-2.88-1.04l.14-.08 4.78-2.76a.79.79 0 0 0 .4-.68v-6.74l2.02 1.17a.07.07 0 0 1 .4.05v5.59a4.5 4.5 0 0 1-4.5 4.49zM3.6 18.3a4.47 4.47 0 0 1-.54-3.01l.15.08 4.78 2.76a.77.77 0 0 0 .78 0l5.84-3.37v2.33a.08.08 0 0 1-.3.06L9.74 19.95a4.5 4.5 0 0 1-6.14-1.65zM2.34 7.9a4.49 4.49 0 0 1 2.37-1.98v5.68a.77.77 0 0 0 .39.68l5.81 3.35-2.02 1.17a.08.08 0 0 1-.07 0l-4.83-2.79A4.5 4.5 0 0 1 2.34 7.9zm16.6 3.85L13.1 8.36l2.02-1.16a.08.08 0 0 1 .07 0l4.83 2.79a4.49 4.49 0 0 1-.68 8.1v-5.67a.79.79 0 0 0-.4-.67zm2.01-3.02-.14-.09-4.77-2.78a.78.78 0 0 0-.79 0L9.41 9.23V6.9a.07.07 0 0 1 .03-.06l4.83-2.79a4.5 4.5 0 0 1 6.68 4.66zM8.31 12.86l-2.02-1.16a.08.08 0 0 1-.04-.06V6.07a4.5 4.5 0 0 1 7.38-3.45l-.14.08L8.7 5.46a.79.79 0 0 0-.39.68zm1.1-2.36 2.6-1.5 2.6 1.5v3l-2.6 1.5-2.6-1.5z"/></svg>
+              ChatGPT
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#D97757" d="M10.91 7.94L12.00 0.60L13.09 7.94ZM13.28 8.00L18.16 2.41L15.11 9.18ZM15.24 9.32L22.37 7.26L16.14 11.31ZM16.17 11.50L23.28 13.62L15.86 13.66ZM15.78 13.83L20.62 19.47L14.35 15.48ZM14.19 15.58L15.21 22.94L12.10 16.20ZM11.90 16.20L8.79 22.94L9.81 15.58ZM9.65 15.48L3.38 19.47L8.22 13.83ZM8.14 13.66L0.72 13.62L7.83 11.50ZM7.86 11.31L1.63 7.26L8.76 9.32ZM8.89 9.18L5.84 2.41L10.72 8.00ZM12 7.80A4.2 4.2 0 1 0 12 16.20A4.2 4.2 0 1 0 12 7.80Z"/></svg>
+              Claude
+            </li>
+          </ul>
+        </div>
 
         <div class="hero-actions">
           <a class="btn btn--primary" href="#hero-form">
