@@ -249,7 +249,7 @@ header.site.stuck{
 /* ---------- "get found on" strip ---------- */
 .found-on{
   display:flex;flex-wrap:wrap;align-items:center;gap:12px 22px;
-  margin:0 0 28px;padding-bottom:4px;
+  margin:0 0 28px;padding-bottom:4px;align-self:flex-start;
 }
 .fo-label{
   font-size:.66rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
@@ -268,6 +268,7 @@ header.site.stuck{
 }
 .rating-pill{
   display:inline-flex;align-items:center;flex-wrap:wrap;gap:5px 9px;margin-top:30px;
+  align-self:flex-start;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
   border-radius:999px;padding:9px 18px;
   transition:background .25s ease,border-color .25s ease,transform .25s ease;
@@ -280,15 +281,6 @@ header.site.stuck{
 .rating-pill b{font-family:'Outfit',sans-serif;font-weight:700;color:#fff;font-size:.96rem}
 .rp-meta{font-size:.87rem;color:#A79FA4}
 
-.hero-stats{display:flex;flex-wrap:wrap;gap:clamp(28px,6vw,60px);margin-top:30px}
-.hero-stats b{
-  display:block;font-family:'Outfit',sans-serif;font-weight:800;color:#fff;
-  font-size:clamp(1.9rem,5.6vw,2.5rem);line-height:1;letter-spacing:-.03em;
-}
-.hero-stats small{
-  display:block;margin-top:8px;font-size:.66rem;font-weight:800;letter-spacing:.15em;
-  text-transform:uppercase;color:#8B8288;
-}
 
 /* floating accent dots, as in the reference */
 .dot-accent{position:absolute;border-radius:50%;z-index:1;pointer-events:none;display:none}
@@ -367,53 +359,15 @@ header.site.stuck{
 .is-sent .form-body{display:none}
 .is-sent .form-ok{display:block}
 
-/* ============================================================
-   CLIENT LOGOS — scrolls right to left
-   ============================================================ */
-.brands{
-  position:relative;background:#0A090C;border-top:1px solid rgba(255,255,255,.07);
-  padding:clamp(34px,5vw,56px) 0;overflow:hidden;
-}
-.brands-label{
-  text-align:center;font-family:'Outfit',sans-serif;font-weight:700;
-  font-size:clamp(.68rem,2.2vw,.76rem);letter-spacing:.18em;text-transform:uppercase;
-  color:#6F686E;margin:0 0 clamp(22px,3.4vw,34px);
-}
-.bm{
-  position:relative;overflow:hidden;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-  mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
-}
-.bm-track{display:flex;align-items:center;width:max-content;animation:brandRun 36s linear infinite}
-.bm:hover .bm-track,.bm:focus-within .bm-track{animation-play-state:paused}
-@keyframes brandRun{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.bm-track{animation:none}}
-.bm-item{
-  flex:none;display:flex;align-items:center;justify-content:center;
-  width:clamp(180px,25vw,290px);height:clamp(62px,8vw,96px);
-  padding:0 clamp(18px,3vw,36px);
-}
-/* the six files mix dark and white artwork, so they are all inverted to white */
-.bm-item img{
-  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;
-  filter:brightness(0) invert(1);opacity:0;transition:opacity .35s ease;
-}
-.bm-item img.is-ok{opacity:.68}
-.bm-item:hover img.is-ok{opacity:1}
-.bm-txt{
-  display:none;font-family:'Outfit',sans-serif;font-weight:700;font-size:.95rem;
-  color:#E3DDE0;text-align:center;line-height:1.2;opacity:.75;
-}
-.bm-item.is-fail img{display:none}
-.bm-item.is-fail .bm-txt{display:block}
 
 /* ============================================================
    STATEMENT
    ============================================================ */
 .statement{
-  position:relative;overflow:hidden;
+  position:relative;overflow:hidden;display:grid;align-items:center;
   background:radial-gradient(120% 90% at 50% 0%,#220E14 0%,#160A10 55%,#120910 100%);
   padding:clamp(56px,9vw,110px) 0;
+  min-height:100vh;min-height:100svh;
 }
 .statement::before{
   content:"";position:absolute;top:-40%;left:50%;transform:translateX(-50%);
@@ -426,7 +380,7 @@ header.site.stuck{
   /* Anton ships one weight; ask for 800 so a fallback is still heavy, and stop
      the browser synthesising bold on top of Anton itself */
   font-weight:800;font-synthesis-weight:none;
-  font-size:clamp(2.3rem,9.4vw,6.6rem);line-height:.9;letter-spacing:-.005em;
+  font-size:clamp(2.3rem,9.4vw,6.6rem);line-height:1.06;letter-spacing:-.005em;
   color:#fff;margin:0;text-align:left;
 }
 .st-head > span{display:block}
@@ -435,20 +389,20 @@ header.site.stuck{
 }
 /* two columns: the statement left, the credentials right */
 .st-grid{display:grid;gap:clamp(32px,5vw,58px)}
-.awards{list-style:none;margin:0;padding:0;display:grid;gap:clamp(15px,2.2vw,20px)}
-.awards li{position:relative;padding-left:18px}
+.awards{list-style:none;margin:0;padding:0;display:grid;gap:clamp(24px,3.4vw,38px)}
+.awards li{position:relative;padding-left:22px}
 .awards li::before{
-  content:"";position:absolute;left:0;top:3px;bottom:3px;width:3px;border-radius:3px;background:var(--grad);
+  content:"";position:absolute;left:0;top:3px;bottom:3px;width:3.5px;border-radius:3px;background:var(--grad);
 }
 .aw-title{
   font-family:'Outfit',sans-serif;font-weight:700;color:#fff;margin:0 0 7px;
-  font-size:clamp(.97rem,2.4vw,1.07rem);line-height:1.34;letter-spacing:-.01em;
+  font-size:clamp(1.06rem,2.9vw,1.32rem);line-height:1.32;letter-spacing:-.015em;
   display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;
 }
-.aw-title svg{width:15px;height:15px;color:var(--amber);flex:none;align-self:center}
+.aw-title svg{width:17px;height:17px;color:var(--amber);flex:none;align-self:center}
 .aw-meta{
-  font-size:.69rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
-  color:#8B8288;margin:0;
+  font-size:.77rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#948A90;margin:0;
 }
 a.awards-link{display:block;color:inherit}
 a.awards-link:hover .aw-title{color:var(--amber)}
@@ -486,7 +440,9 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   .nav-cta{display:inline-flex}
   .brand-logo{height:29px}
   .hero{padding-top:calc(var(--nav-h) + 66px);padding-bottom:clamp(70px,8vw,110px)}
-  .hero-inner{grid-template-columns:1.08fr .92fr;gap:56px}
+  .hero-inner{grid-template-columns:1.08fr .92fr;gap:56px;align-items:stretch}
+  .hero-copy{display:flex;flex-direction:column;justify-content:center}
+  .hero-form{display:flex;flex-direction:column;justify-content:center}
   .hero-inner > *{min-width:0}
   .hero-form{padding:30px 28px}
 }
@@ -608,10 +564,6 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
           <span class="rp-meta">· 102 reviews · Digital Movement Australia</span>
         </a>
 
-        <div class="hero-stats">
-          <div><b>300+</b><small>Clients</small></div>
-          <div><b>92%</b><small>Client retention</small></div>
-        </div>
       </div>
 
       <div class="hero-form rv" id="hero-form">
@@ -633,6 +585,17 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
                 <label for="h-phone">Phone</label>
                 <input id="h-phone" name="phone" type="tel" placeholder="0400 000 000" autocomplete="tel" required>
                 <span class="msg">Enter a valid phone number</span>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="field">
+                <label for="h-email">Email</label>
+                <input id="h-email" name="email" type="email" placeholder="jane@business.com.au" autocomplete="email" required>
+                <span class="msg">Enter a valid email</span>
+              </div>
+              <div class="field">
+                <label for="h-business">Business name</label>
+                <input id="h-business" name="business" type="text" placeholder="Smith Plumbing" autocomplete="organization">
               </div>
             </div>
             <div class="field">
@@ -668,67 +631,6 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
         </form>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- ================= CLIENT LOGOS ================= -->
-<section class="brands">
-  <div class="wrap">
-    <p class="brands-label rv">Trusted by Australian trade businesses</p>
-  </div>
-  <div class="bm" aria-label="Clients we have worked with">
-    <div class="bm-track">
-      <!-- set 1 -->
-      <a class="bm-item" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
-        <span class="bm-txt">MW Homes</span>
-      </a>
-      <a class="bm-item" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrowtech Cranes logo" decoding="async">
-        <span class="bm-txt">Narrowtech Cranes</span>
-      </a>
-      <a class="bm-item" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
-        <span class="bm-txt">Ultra Finish Roofing</span>
-      </a>
-      <a class="bm-item" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
-        <span class="bm-txt">Precision Painting</span>
-      </a>
-      <a class="bm-item" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
-        <span class="bm-txt">Buildmarque</span>
-      </a>
-      <a class="bm-item" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer">
-        <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
-        <span class="bm-txt">Building &amp; Property Inspections</span>
-      </a>
-      <!-- set 2 — duplicate for a seamless loop -->
-      <a class="bm-item" href="https://www.mwhomes.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://www.mwhomes.com.au/wp-content/uploads/2025/05/logo.png" alt="MW Homes logo" decoding="async">
-        <span class="bm-txt">MW Homes</span>
-      </a>
-      <a class="bm-item" href="https://www.narrowtech.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://www.narrowtech.com.au/wp-content/webp-express/webp-images/doc-root/wp-content/uploads/2026/04/Logo.png.webp" alt="Narrowtech Cranes logo" decoding="async">
-        <span class="bm-txt">Narrowtech Cranes</span>
-      </a>
-      <a class="bm-item" href="https://ultrafinishroofing.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://ultrafinishroofing.com.au/wp-content/uploads/2026/06/Logo.png.webp" alt="Ultra Finish Roofing logo" decoding="async">
-        <span class="bm-txt">Ultra Finish Roofing</span>
-      </a>
-      <a class="bm-item" href="https://www.precisionpaintingaus.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://www.precisionpaintingaus.com.au/wp-content/webp-express/webp-images/themes/Precision-Painting-Aus-theme/Precision-Painting-Aus-theme/assets/img/logo.png.webp" alt="Precision Painting logo" decoding="async">
-        <span class="bm-txt">Precision Painting</span>
-      </a>
-      <a class="bm-item" href="https://www.buildmarque.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://www.buildmarque.com.au/wp-content/uploads/2026/02/logo-1.png.webp" alt="Buildmarque logo" decoding="async">
-        <span class="bm-txt">Buildmarque</span>
-      </a>
-      <a class="bm-item" href="https://www.buildingpropertyinspections.com.au/" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1">
-        <img src="https://www.buildingpropertyinspections.com.au/wp-content/uploads/2026/04/logo.png.webp" alt="Building &amp; Property Inspections logo" decoding="async">
-        <span class="bm-txt">Building &amp; Property Inspections</span>
-      </a>
     </div>
   </div>
 </section>
@@ -821,17 +723,9 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     revealables.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- logos settle before they show ---------- */
-  document.querySelectorAll('.bm-item img').forEach(function (img) {
-    function ok() { img.classList.add('is-ok'); }
-    function fail() { img.closest('.bm-item').classList.add('is-fail'); }
-    img.addEventListener('load', ok);
-    img.addEventListener('error', fail);
-    if (img.complete) { img.naturalWidth > 0 ? ok() : fail(); }
-  });
-
   /* ---------- form validation (demo only — wire to your handler) ---------- */
   var phoneOk = /^(\+?61|0)[\s-]?[2-478](?:[\s-]?\d){8}$/;
+  var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   document.querySelectorAll('.quote-form').forEach(function (form) {
     form.addEventListener('submit', function (e) {
@@ -842,6 +736,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
         var v = (input.value || '').trim();
         var ok = v.length > 0;
         if (ok && input.type === 'tel') ok = phoneOk.test(v.replace(/\s+/g, ' '));
+        if (ok && input.type === 'email') ok = emailOk.test(v);
         field.classList.toggle('err', !ok);
         if (!ok && valid) input.focus();
         if (!ok) valid = false;
