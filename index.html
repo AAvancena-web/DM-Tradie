@@ -273,14 +273,29 @@ header.site.stuck{
   .fo-list{gap:14px 26px}
 }
 .hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:18px}
-.hero-trust{
-  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;margin-top:28px;
-  font-size:.82rem;font-weight:600;color:#E3DDE0;
+.rating-pill{
+  display:inline-flex;align-items:center;flex-wrap:wrap;gap:5px 9px;margin-top:30px;
+  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
+  border-radius:999px;padding:9px 18px;
+  transition:background .25s ease,border-color .25s ease,transform .25s ease;
 }
-.hero-trust span{display:inline-flex;align-items:center;gap:7px}
-.hero-trust svg{width:15px;height:15px;color:var(--amber);flex:none}
+.rating-pill:hover{
+  background:rgba(255,255,255,.09);border-color:rgba(251,175,67,.5);transform:translateY(-1px)
+}
 .stars-rating{display:inline-flex;gap:2px}
-.stars-rating svg{width:13px;height:13px;color:var(--amber)}
+.stars-rating svg{width:15px;height:15px;color:var(--amber)}
+.rating-pill b{font-family:'Outfit',sans-serif;font-weight:700;color:#fff;font-size:.96rem}
+.rp-meta{font-size:.87rem;color:#A79FA4}
+
+.hero-stats{display:flex;flex-wrap:wrap;gap:clamp(28px,6vw,60px);margin-top:30px}
+.hero-stats b{
+  display:block;font-family:'Outfit',sans-serif;font-weight:800;color:#fff;
+  font-size:clamp(1.9rem,5.6vw,2.5rem);line-height:1;letter-spacing:-.03em;
+}
+.hero-stats small{
+  display:block;margin-top:8px;font-size:.66rem;font-weight:800;letter-spacing:.15em;
+  text-transform:uppercase;color:#8B8288;
+}
 
 /* floating accent dots, as in the reference */
 .dot-accent{position:absolute;border-radius:50%;z-index:1;pointer-events:none;display:none}
@@ -510,21 +525,16 @@ header.site.stuck{
           <a class="link-under" href="tel:1300878233">Or call 1300 878 233</a>
         </div>
 
-        <div class="hero-trust">
-          <span>
-            <span class="stars-rating" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-              <svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
-            </span>
-            4.9 from 60+ client reviews
-          </span>
-          <span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-            A division of Digital Movement
-          </span>
+        <a class="rating-pill" href="https://www.google.com/search?q=Digital+Movement+Melbourne"
+           target="_blank" rel="noopener noreferrer" aria-label="5.0 from 102 Google reviews for Digital Movement Australia">
+          <span class="stars-rating" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <b>5.0</b>
+          <span class="rp-meta">· 102 reviews · Digital Movement Australia</span>
+        </a>
+
+        <div class="hero-stats">
+          <div><b>300+</b><small>Clients</small></div>
+          <div><b>92%</b><small>Client retention</small></div>
         </div>
       </div>
 
