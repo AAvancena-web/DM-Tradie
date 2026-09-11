@@ -427,18 +427,20 @@ header.site.stuck{
 .awards.in li:nth-child(2)::before{transition-delay:.4s}
 .awards.in li:nth-child(3)::before{transition-delay:.5s}
 .awards.in li:nth-child(4)::before{transition-delay:.6s}
-/* words sit dim until the section is scrolled through (see script) */
-.st-head.lit .w{color:#3A3438;transition:color .18s linear}
-/* the accent line keeps its gradient; a scrim clipped to each word dims it
-   instead, so the sweep runs across the whole phrase, not per word */
-.st-head.lit i.accent .w{
+/* the script splits each word into letters and adds .is-split; until then the
+   heading renders as plain white, so it is never dim with scripting off */
+.st-head.lit .w{display:inline-block}
+.st-head.is-split .c{color:#3A3438;transition:color .12s linear}
+/* the accent line keeps its gradient; a scrim clipped to each letter dims it
+   instead, so the sweep runs across the whole phrase, not per letter */
+.st-head.is-split i.accent .c{
   color:transparent;-webkit-background-clip:text;background-clip:text;
   background-image:linear-gradient(rgba(27,11,17,.86),rgba(27,11,17,.86));
-  transition:background-image .18s linear;
+  transition:background-image .12s linear;
 }
 @media (prefers-reduced-motion:reduce){
-  .st-head.lit .w{color:#fff;transition:none}
-  .st-head.lit i.accent .w{color:transparent;background-image:none}
+  .st-head.is-split .c{color:#fff;transition:none}
+  .st-head.is-split i.accent .c{color:transparent;background-image:none}
 }
 .st-head .accent{
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
@@ -476,19 +478,20 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   position:relative;background:#0A090C;border-top:1px solid rgba(255,255,255,.07);
   padding:clamp(48px,7vw,84px) 0;overflow:hidden;
 }
-.rv-head{
+.sec-head{
   display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,22px);
   margin:0 0 clamp(28px,4vw,44px);text-align:center;
 }
-.rv-head h2{
+.sec-head h2{
   font-family:'Anton','Arial Narrow',Impact,'Outfit',sans-serif;text-transform:uppercase;
   font-weight:800;font-synthesis-weight:none;
   color:#fff;margin:0;font-size:clamp(1.9rem,6.6vw,4.1rem);
   line-height:1.04;letter-spacing:-.005em;
 }
-/* words light from dim to white as the section scrolls past */
-.rv-head h2.lit .w{color:#3A3438;transition:color .18s linear}
-@media (prefers-reduced-motion:reduce){.rv-head h2.lit .w{color:#fff;transition:none}}
+/* letters light from dim to white as the section scrolls past (see script) */
+.sec-head h2.lit .w{display:inline-block}
+.sec-head h2.is-split .c{color:#3A3438;transition:color .12s linear}
+@media (prefers-reduced-motion:reduce){.sec-head h2.is-split .c{color:#fff;transition:none}}
 .rv-badge{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
@@ -562,6 +565,99 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   .bm-track{animation:none}
   .rv-quote{transition:none}
 }
+
+/* ---------- what we do: cards ride left as the section is scrolled ---------- */
+.wwd{position:relative;background:#0B0A0D;border-top:1px solid rgba(255,255,255,.07);padding:clamp(48px,7vw,84px) 0 0}
+.wwd-rail{position:relative}
+/* the pin fills the viewport so the rail below it supplies exactly as much
+   scroll as the row needs to travel — any shorter and the page runs out of
+   room before the last card arrives */
+.wwd-stick{
+  position:sticky;top:var(--nav-h);
+  height:calc(100vh - var(--nav-h));height:calc(100svh - var(--nav-h));
+  display:flex;align-items:center;overflow:hidden;
+}
+.wwd-track{
+  display:flex;gap:clamp(14px,1.6vw,22px);width:max-content;
+  padding:0 var(--pad);will-change:transform;
+}
+
+.wd-card{
+  --c1:#FBAF43;--c2:#F2404F;
+  position:relative;flex:none;display:flex;flex-direction:column;justify-content:flex-end;
+  width:auto;height:clamp(340px,64vh,580px);aspect-ratio:47/62;
+  border-radius:var(--r-lg);overflow:hidden;isolation:isolate;
+  background:linear-gradient(170deg,var(--c1) 0%,var(--c2) 100%);
+  padding:clamp(18px,1.5vw,24px);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1);
+}
+.wd-card:hover{transform:translateY(-6px)}
+/* a soft graphic wash so the flat gradient has some depth behind the type */
+.wd-card::before{
+  content:"";position:absolute;inset:0;z-index:-2;
+  background:
+    radial-gradient(120% 70% at 12% 8%,rgba(255,255,255,.34) 0%,rgba(255,255,255,0) 58%),
+    repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 2px,rgba(255,255,255,0) 2px 26px);
+}
+/* and a dark foot so the copy always clears its background */
+.wd-card::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:72%;z-index:-1;
+  background:linear-gradient(180deg,rgba(10,9,12,0) 0%,rgba(10,9,12,.55) 42%,rgba(10,9,12,.88) 100%);
+}
+/* a large line glyph stands in for project artwork in the upper half */
+.wd-glyph{
+  position:absolute;left:50%;top:34%;transform:translate(-50%,-50%);
+  width:min(52%,190px);height:auto;z-index:-1;
+  fill:none;stroke:rgba(255,255,255,.5);stroke-width:1.15;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.wd-num{
+  position:absolute;top:clamp(16px,1.4vw,22px);left:clamp(18px,1.5vw,24px);
+  font-family:'Outfit',sans-serif;font-weight:700;font-size:.82rem;
+  color:rgba(255,255,255,.72);letter-spacing:.04em;
+}
+.wd-tag{
+  position:absolute;top:clamp(14px,1.2vw,19px);right:clamp(14px,1.2vw,19px);
+  max-width:66%;text-align:center;
+  background:rgba(12,10,14,.62);border:1px solid rgba(255,255,255,.16);
+  border-radius:999px;padding:6px 12px;
+  font-size:.63rem;letter-spacing:.11em;text-transform:uppercase;color:#fff;
+}
+.wd-punch{
+  margin:0;font-family:'Anton','Arial Narrow',Impact,'Outfit',sans-serif;
+  font-weight:800;font-synthesis-weight:none;text-transform:uppercase;
+  font-size:clamp(2rem,3.4vw,3.1rem);line-height:.94;letter-spacing:-.01em;color:#fff;
+}
+.wd-punch-label{
+  margin:6px 0 clamp(14px,1.4vw,20px);
+  font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.68);
+}
+.wd-card h3{
+  margin:0 0 7px;font-family:'Outfit',sans-serif;font-weight:700;
+  font-size:clamp(1.02rem,1.3vw,1.2rem);line-height:1.25;color:#fff;
+}
+.wd-desc{margin:0 0 clamp(14px,1.4vw,18px);font-size:.85rem;line-height:1.5;color:rgba(255,255,255,.8)}
+.wd-link{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;
+  font-weight:600;color:#fff;
+}
+.wd-link span{transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.wd-card:hover .wd-link span{transform:translateX(5px)}
+.wd-link:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:4px}
+
+/* below the pin width, and whenever motion is unwelcome, it is a plain swipe row */
+.wwd-track.is-swipe{width:auto;transform:none!important}
+.wwd-stick.is-swipe{
+  position:static;height:auto;padding:clamp(24px,4vw,44px) 0 clamp(40px,6vw,64px);
+  overflow-x:auto;overflow-y:hidden;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.wwd-stick.is-swipe::-webkit-scrollbar{display:none}
+/* sized from width here so a slice of the next card shows and invites the swipe */
+.wwd-stick.is-swipe .wd-card{width:min(78vw,320px);height:auto;scroll-snap-align:center}
+@media (prefers-reduced-motion:reduce){.wd-card{transition:none}}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -826,7 +922,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
      ============================================================ -->
 <section class="reviews">
   <div class="wrap">
-    <div class="rv-head">
+    <div class="sec-head">
       <h2 class="lit" id="revHead"><span class="w">What</span> <span class="w">our</span> <span class="w">clients</span> <span class="w">say.</span></h2>
       <a class="rv-badge" href="https://www.google.com/search?q=Digital+Movement+Melbourne"
          target="_blank" rel="noopener noreferrer">
@@ -905,6 +1001,82 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   </div>
 </section>
 
+<!-- ================= WHAT WE DO ================= -->
+<section class="wwd" id="services">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="lit" id="wwdHead"><span class="w">What</span> <span class="w">we</span> <span class="w">do.</span></h2>
+    </div>
+  </div>
+
+  <div class="wwd-rail" id="wwdRail">
+    <div class="wwd-stick" id="wwdStick">
+      <div class="wwd-track" id="wwdTrack">
+        <article class="wd-card" style="--c1:#FBAF43;--c2:#F2404F">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="12" width="52" height="40" rx="4"/><path d="M6 22h52"/><circle cx="13" cy="17" r="1.6"/><circle cx="19" cy="17" r="1.6"/><path d="M16 32h20M16 39h28M16 46h12"/></svg>
+          <span class="wd-num">01</span>
+          <span class="wd-tag">Web design · Development</span>
+          <p class="wd-punch">Convert.</p>
+          <p class="wd-punch-label">Built to sell</p>
+          <h3>Websites that win the job</h3>
+          <p class="wd-desc">Fast, mobile-first trade sites with quote forms, booking and call tracking wired in from day one.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="wd-card" style="--c1:#F7A23B;--c2:#C6293F">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8c-8 0-14 6-14 14 0 10 14 26 14 26s14-16 14-26c0-8-6-14-14-14z"/><circle cx="32" cy="22" r="5.5"/><path d="M8 50h48M14 56h36"/></svg>
+          <span class="wd-num">02</span>
+          <span class="wd-tag">Local SEO · Google Business</span>
+          <p class="wd-punch">Rank.</p>
+          <p class="wd-punch-label">Suburb by suburb</p>
+          <h3>Own your service area</h3>
+          <p class="wd-desc">Local SEO and Google Business Profile work so you turn up in the postcodes you actually service.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="wd-card" style="--c1:#F2604A;--c2:#A81E4E">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24"/><circle cx="32" cy="32" r="15"/><circle cx="32" cy="32" r="6"/><path d="M32 2v10M32 52v10M2 32h10M52 32h10"/></svg>
+          <span class="wd-num">03</span>
+          <span class="wd-tag">Google Ads · Local Services</span>
+          <p class="wd-punch">Fill.</p>
+          <p class="wd-punch-label">Leads on tap</p>
+          <h3>Work in the quiet weeks</h3>
+          <p class="wd-desc">Search and Local Services campaigns managed to a cost per lead you can hold us to, not to clicks.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="wd-card" style="--c1:#E04B62;--c2:#7A1E63">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M10 26v12a4 4 0 0 0 4 4h6l22 12V10L20 22h-6a4 4 0 0 0-4 4z"/><path d="M50 24a12 12 0 0 1 0 16"/><path d="M20 42v10h8V46"/></svg>
+          <span class="wd-num">04</span>
+          <span class="wd-tag">Meta ads · Paid social</span>
+          <p class="wd-punch">Reach.</p>
+          <p class="wd-punch-label">Seen first</p>
+          <h3>Get known in your patch</h3>
+          <p class="wd-desc">Facebook and Instagram campaigns that put finished jobs in front of homeowners nearby.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="wd-card" style="--c1:#B8365F;--c2:#4A1B55">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M32 6 58 32 32 58 6 32z"/><path d="M32 18 46 32 32 46 18 32z"/><path d="M6 32h52M32 6v52"/></svg>
+          <span class="wd-num">05</span>
+          <span class="wd-tag">Branding · Identity</span>
+          <p class="wd-punch">Stand out.</p>
+          <p class="wd-punch-label">One look, everywhere</p>
+          <h3>A brand that looks the part</h3>
+          <p class="wd-desc">Logo, vehicle livery, uniforms and signage — one identity that works on a ute, a quote and a site.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+        <article class="wd-card" style="--c1:#7E2E55;--c2:#2A1433">
+          <svg class="wd-glyph" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 20h11l5-7h20l5 7h11a3 3 0 0 1 3 3v26a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V23a3 3 0 0 1 3-3z"/><circle cx="32" cy="35" r="11"/><circle cx="32" cy="35" r="5"/></svg>
+          <span class="wd-num">06</span>
+          <span class="wd-tag">Content · Photography</span>
+          <p class="wd-punch">Show.</p>
+          <p class="wd-punch-label">Your crew, your work</p>
+          <h3>Real photos, never stock</h3>
+          <p class="wd-desc">On-site photography and video of your team and finished jobs, shot to use everywhere you show up.</p>
+          <a class="wd-link" href="#home">Get this sorted <span aria-hidden="true">&rarr;</span></a>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
 <script>
 (function () {
   'use strict';
@@ -958,9 +1130,11 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     revealables.forEach(function (el) { io.observe(el); });
   }
 
-  /* ---------- headings light up word by word as they scroll through ---------- */
+  /* ---------- headings light up letter by letter as they scroll through ---------- */
   (function () {
     var DIM = [58, 52, 56], LIT = [255, 255, 255], SCRIM = '27,11,17';
+    // how many letters are mid-fade at once — higher is a softer, wider sweep
+    var SPREAD = 3.5;
 
     function wire(id) {
       var head = document.getElementById(id);
@@ -968,15 +1142,31 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
       var words = [].slice.call(head.querySelectorAll('.w'));
       if (!words.length) return;
 
-      // an accent word is painted by a scrim over its gradient, not by colour
-      var kind = words.map(function (w) {
-        return w.closest && w.closest('.accent') ? 'scrim' : 'colour';
+      // split each word into letters, keeping the word itself unbreakable
+      var letters = [];
+      words.forEach(function (w) {
+        var text = w.textContent, frag = document.createDocumentFragment();
+        for (var k = 0; k < text.length; k++) {
+          var c = document.createElement('span');
+          c.className = 'c';
+          c.textContent = text.charAt(k);
+          frag.appendChild(c);
+          letters.push(c);
+        }
+        w.textContent = '';
+        w.appendChild(frag);
+      });
+      head.classList.add('is-split');
+
+      // an accent letter is painted by a scrim over its gradient, not by colour
+      var kind = letters.map(function (c) {
+        return c.closest && c.closest('.accent') ? 'scrim' : 'colour';
       });
 
       if (reduce) {
-        words.forEach(function (w, i) {
-          if (kind[i] === 'scrim') { w.style.backgroundImage = 'none'; }
-          else { w.style.color = '#fff'; }
+        letters.forEach(function (c, i) {
+          if (kind[i] === 'scrim') { c.style.backgroundImage = 'none'; }
+          else { c.style.color = '#fff'; }
         });
         return;
       }
@@ -997,20 +1187,20 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
         var maxY = de.scrollHeight - vh;
         if (maxY > 0 && window.pageYOffset >= maxY - 2) p = 1;
 
-        var n = words.length;
+        var n = letters.length, span = n - 1 + SPREAD;
         for (var i = 0; i < n; i++) {
-          // each word gets its own slice of the run, overlapping slightly
-          var wp = p * (n + 0.6) - i;
-          wp = Math.max(0, Math.min(1, wp));
+          // each letter fades over its own slice, overlapping its neighbours
+          var lp = (p * span - i) / SPREAD;
+          lp = Math.max(0, Math.min(1, lp));
           if (kind[i] === 'scrim') {
-            var a = (0.86 * (1 - wp)).toFixed(3);
+            var a = (0.86 * (1 - lp)).toFixed(3);
             var c = 'rgba(' + SCRIM + ',' + a + ')';
-            words[i].style.backgroundImage = 'linear-gradient(' + c + ',' + c + ')';
+            letters[i].style.backgroundImage = 'linear-gradient(' + c + ',' + c + ')';
           } else {
-            words[i].style.color = 'rgb(' +
-              Math.round(DIM[0] + (LIT[0] - DIM[0]) * wp) + ',' +
-              Math.round(DIM[1] + (LIT[1] - DIM[1]) * wp) + ',' +
-              Math.round(DIM[2] + (LIT[2] - DIM[2]) * wp) + ')';
+            letters[i].style.color = 'rgb(' +
+              Math.round(DIM[0] + (LIT[0] - DIM[0]) * lp) + ',' +
+              Math.round(DIM[1] + (LIT[1] - DIM[1]) * lp) + ',' +
+              Math.round(DIM[2] + (LIT[2] - DIM[2]) * lp) + ')';
           }
         }
       }
@@ -1026,6 +1216,63 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 
     wire('stHead');
     wire('revHead');
+    wire('wwdHead');
+  })();
+
+  /* ---------- what we do: the card row rides left as you scroll down ---------- */
+  (function () {
+    var rail = document.getElementById('wwdRail');
+    var stick = document.getElementById('wwdStick');
+    var track = document.getElementById('wwdTrack');
+    if (!rail || !stick || !track) return;
+
+    var shift = 0, ticking = false, pinned = false;
+
+    // the row only takes over the scroll when there is room to pin it
+    function canPin() {
+      return !reduce && window.matchMedia('(min-width: 900px)').matches;
+    }
+
+    function measure() {
+      pinned = canPin();
+      stick.classList.toggle('is-swipe', !pinned);
+      track.classList.toggle('is-swipe', !pinned);
+
+      if (!pinned) {
+        rail.style.height = '';
+        track.style.transform = '';
+        shift = 0;
+        return;
+      }
+      // how far the row has to travel for its last card to sit flush on the right
+      track.style.transform = 'none';
+      shift = Math.max(0, track.scrollWidth - stick.clientWidth);
+      // one pixel of vertical scroll per pixel of travel, so the pace feels natural
+      rail.style.height = (stick.offsetHeight + shift) + 'px';
+      paint();
+    }
+
+    function paint() {
+      ticking = false;
+      if (!pinned || shift <= 0) return;
+      var r = rail.getBoundingClientRect();
+      var travel = rail.offsetHeight - stick.offsetHeight;
+      var p = travel > 0 ? (-r.top + parseFloat(getComputedStyle(stick).top || 0)) / travel : 0;
+      p = Math.max(0, Math.min(1, p));
+      track.style.transform = 'translate3d(' + (-p * shift).toFixed(1) + 'px,0,0)';
+    }
+
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(paint);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', measure);
+    window.addEventListener('load', measure);
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(measure); }
+    measure();
   })();
 
   /* ---------- reviews: one quote at a time ---------- */
