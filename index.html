@@ -441,8 +441,9 @@ header.site.stuck{
 .awards.in li:nth-child(4)::before{transition-delay:.6s}
 /* the script splits each word into letters and adds .is-split; until then the
    heading renders as plain white, so it is never dim with scripting off */
+.st-head{--fill-dim:58,52,56;--fill-lit:255,255,255}
 .st-head.lit .w{display:inline-block}
-.st-head.is-split .c{color:#3A3438;transition:color .26s linear}
+.st-head.is-split .c{color:rgb(var(--fill-dim));transition:color .26s linear}
 /* the accent line keeps its gradient; a scrim clipped to each letter dims it
    instead, so the sweep runs across the whole phrase, not per letter */
 .st-head.is-split i.accent .c{
@@ -451,7 +452,7 @@ header.site.stuck{
   transition:background-image .26s linear;
 }
 @media (prefers-reduced-motion:reduce){
-  .st-head.is-split .c{color:#fff;transition:none}
+  .st-head.is-split .c{color:rgb(var(--fill-lit));transition:none}
   .st-head.is-split i.accent .c{color:transparent;background-image:none}
 }
 .st-head .accent{
@@ -903,7 +904,11 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 
 /* the flat sections carry the same warm wash as the banner, anchored in a
    different corner each time so the page does not read as one repeated panel */
-.wwd,.work,.proc{--wash:rgba(242,64,79,.22);--wash2:rgba(251,175,67,.16)}
+.wwd,.work,.proc,.faq{--wash:rgba(242,64,79,.22);--wash2:rgba(251,175,67,.16)}
+.faq{background:
+  radial-gradient(95% 62% at 14% 4%,var(--wash) 0%,rgba(242,64,79,0) 58%),
+  radial-gradient(85% 60% at 92% 92%,var(--wash2) 0%,rgba(251,175,67,0) 60%),
+  #0A090C;}
 .wwd{background:
   radial-gradient(90% 60% at 8% 4%,var(--wash2) 0%,rgba(251,175,67,0) 58%),
   radial-gradient(110% 70% at 88% 76%,var(--wash) 0%,rgba(242,64,79,0) 60%),
@@ -954,10 +959,20 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .faq-a a{color:var(--amber);font-weight:600}
 
 /* ---------- contact ---------- */
+/* the one section that runs on brand colour rather than dark — the panels inside
+   stay charcoal so the form keeps the contrast it already had */
 .contact{
-  position:relative;border-top:1px solid rgba(255,255,255,.07);
-  padding:clamp(48px,7vw,84px) 0 clamp(56px,8vw,100px);
+  position:relative;border-top:1px solid rgba(21,6,9,.18);
+  padding:clamp(52px,7.5vw,96px) 0 clamp(60px,8.5vw,112px);
+  background:linear-gradient(122deg,#FBAF43 0%,#F7833B 42%,#F2404F 100%);
 }
+/* the panels are pulled in so the brand colour frames them instead of showing
+   as two thin strips at the edges */
+.contact .contact-grid{max-width:1120px;margin-left:auto;margin-right:auto}
+.contact .sec-head h2{--fill-dim:250,206,155;--fill-lit:21,6,9}
+.contact .sec-eyebrow{color:rgba(21,6,9,.72)}
+.contact .contact-panel{background:#14121A;border-color:rgba(255,255,255,.08)}
+.contact .contact-panel--form{background:#181522}
 .contact-grid{
   display:grid;gap:clamp(20px,2.6vw,32px);align-items:stretch;
   margin-top:clamp(34px,5vw,54px);
@@ -1055,7 +1070,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
    has to flip: the heading sweep runs pale-to-dark, brand amber is too light to
    read on this ground so links and accents drop to the deep red end.
    ------------------------------------------------------------------ */
-.reviews,.res,.faq{
+.reviews,.res{
   --ink:#15121A;          /* headings and strong copy      */
   --body:#4A444F;         /* body copy                     */
   --muted:#6B6470;        /* meta and eyebrows             */
@@ -1068,9 +1083,9 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     radial-gradient(80% 55% at 6% 96%,rgba(251,175,67,.12) 0%,rgba(251,175,67,0) 62%),
     #F6F3EF;
 }
-.reviews .sec-head h2,.res .sec-head h2,.faq .sec-head h2{--fill-dim:212,205,199;--fill-lit:21,18,26}
-.reviews .sec-eyebrow,.res .sec-eyebrow,.faq .sec-eyebrow{color:var(--muted)}
-.reviews .sec-sub,.res .sec-sub,.faq .sec-sub{color:var(--body)}
+.reviews .sec-head h2,.res .sec-head h2{--fill-dim:212,205,199;--fill-lit:21,18,26}
+.reviews .sec-eyebrow,.res .sec-eyebrow{color:var(--muted)}
+.reviews .sec-sub,.res .sec-sub{color:var(--body)}
 
 /* reviews */
 .reviews .rv-badge{background:rgba(21,18,26,.05);border-color:rgba(21,18,26,.16);color:var(--body)}
@@ -1090,16 +1105,6 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 /* results */
 .res .res-note{color:var(--muted)}
 
-/* faq */
-.faq{border-top:1px solid rgba(21,18,26,.1)}
-.faq-item{border-bottom:1px solid var(--rule)}
-.faq-item summary{color:var(--ink)}
-.faq-item summary:hover{color:var(--brand-ink)}
-.faq-a{color:var(--body)}
-.faq-a a{color:var(--brand-ink)}
-.faq-ic{border-color:rgba(21,18,26,.26)}
-.faq-ic::before,.faq-ic::after{background:var(--ink)}
-.faq-item[open] .faq-ic::after{background:#fff}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -1817,11 +1822,6 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
                 <input id="c-suburb" name="suburb" type="text" placeholder="Northern suburbs">
               </div>
             </div>
-            <div class="field field--grow">
-              <label for="c-message">Anything else we should know?</label>
-              <textarea id="c-message" name="message" rows="3"
-                placeholder="Tell us what is going on &mdash; a site that is not bringing work in, a rebrand, a new number to advertise&hellip;"></textarea>
-            </div>
             <div class="field">
               <label for="c-service">What are you after?</label>
               <select id="c-service" name="service" required>
@@ -1836,6 +1836,11 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
                 <option>Not sure yet</option>
               </select>
               <span class="msg">Please choose a service</span>
+            </div>
+            <div class="field field--grow">
+              <label for="c-message">Anything else we should know?</label>
+              <textarea id="c-message" name="message" rows="3"
+                placeholder="Tell us what is going on &mdash; a site that is not bringing work in, a rebrand, a new number to advertise&hellip;"></textarea>
             </div>
             <button class="btn btn--primary btn--block" type="submit">
               Send my free review
