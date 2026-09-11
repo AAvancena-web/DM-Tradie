@@ -427,6 +427,19 @@ header.site.stuck{
 .awards.in li:nth-child(2)::before{transition-delay:.4s}
 .awards.in li:nth-child(3)::before{transition-delay:.5s}
 .awards.in li:nth-child(4)::before{transition-delay:.6s}
+/* words sit dim until the section is scrolled through (see script) */
+.st-head.lit .w{color:#3A3438;transition:color .18s linear}
+/* the accent line keeps its gradient; a scrim clipped to each word dims it
+   instead, so the sweep runs across the whole phrase, not per word */
+.st-head.lit i.accent .w{
+  color:transparent;-webkit-background-clip:text;background-clip:text;
+  background-image:linear-gradient(rgba(27,11,17,.86),rgba(27,11,17,.86));
+  transition:background-image .18s linear;
+}
+@media (prefers-reduced-motion:reduce){
+  .st-head.lit .w{color:#fff;transition:none}
+  .st-head.lit i.accent .w{color:transparent;background-image:none}
+}
 .st-head .accent{
   background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;
 }
@@ -464,13 +477,18 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   padding:clamp(48px,7vw,84px) 0;overflow:hidden;
 }
 .rv-head{
-  display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:10px 16px;
+  display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,22px);
   margin:0 0 clamp(28px,4vw,44px);text-align:center;
 }
 .rv-head h2{
-  font-family:'Outfit',sans-serif;font-weight:700;color:#fff;margin:0;
-  font-size:clamp(1.4rem,4vw,2rem);letter-spacing:-.02em;
+  font-family:'Anton','Arial Narrow',Impact,'Outfit',sans-serif;text-transform:uppercase;
+  font-weight:800;font-synthesis-weight:none;
+  color:#fff;margin:0;font-size:clamp(1.9rem,6.6vw,4.1rem);
+  line-height:1.04;letter-spacing:-.005em;
 }
+/* words light from dim to white as the section scrolls past */
+.rv-head h2.lit .w{color:#3A3438;transition:color .18s linear}
+@media (prefers-reduced-motion:reduce){.rv-head h2.lit .w{color:#fff;transition:none}}
 .rv-badge{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.13);
@@ -481,38 +499,68 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .rv-badge b{color:#fff;font-family:'Outfit',sans-serif;font-weight:700}
 .rv-badge svg{width:16px;height:16px;flex:none}
 
-.rvm{
-  position:relative;overflow:hidden;
-  -webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
-  mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+/* ---------- one review at a time, centred ---------- */
+/* the stage hugs whichever quote is showing, so short ones leave no hole */
+.rv-stage{display:grid;align-items:start;max-width:60ch;margin:0 auto;
+  overflow:hidden;transition:height .45s cubic-bezier(.2,.7,.3,1)}
+@media (prefers-reduced-motion:reduce){.rv-stage{transition:none}}
+.rv-quote{
+  grid-area:1/1;margin:0;text-align:center;
+  display:flex;flex-direction:column;align-items:center;
+  opacity:0;transform:translateY(10px);pointer-events:none;
+  transition:opacity .55s ease,transform .55s cubic-bezier(.2,.7,.3,1);
 }
-.rvm-track{display:flex;align-items:stretch;width:max-content;animation:reviewRun 60s linear infinite}
-.rvm:hover .rvm-track,.rvm:focus-within .rvm-track{animation-play-state:paused}
-@keyframes reviewRun{to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion:reduce){.rvm-track{animation:none}}
+.rv-quote.is-on{opacity:1;transform:none;pointer-events:auto}
+.rv-quote[hidden]{display:flex}          /* stacked, not removed — hidden hides it from AT */
+.rv-stars{display:inline-flex;gap:4px;margin-bottom:clamp(16px,2.2vw,22px)}
+.rv-stars svg{width:19px;height:19px;color:var(--amber)}
+.rv-quote blockquote{
+  margin:0;color:#EFEAED;
+  font-size:clamp(1.15rem,2.5vw,1.95rem);line-height:1.45;letter-spacing:-.01em;
+}
+.rv-quote figcaption{margin-top:clamp(20px,2.8vw,30px)}
+.rv-quote figcaption b{
+  display:block;font-family:'Outfit',sans-serif;font-weight:700;color:#fff;font-size:1rem;
+}
+.rv-quote figcaption span{display:block;font-size:.82rem;color:#8B8288;margin-top:4px}
 
-.rv-card{
-  flex:none;width:clamp(268px,74vw,376px);margin:0 clamp(12px,1.6vw,20px) 0 0;
-  display:flex;flex-direction:column;
-  background:linear-gradient(165deg,rgba(255,255,255,.06) 0%,rgba(255,255,255,.025) 100%);
-  border:1px solid rgba(255,255,255,.1);border-radius:var(--r-lg);
-  padding:22px 22px 20px;
+.rv-dots{display:flex;justify-content:center;gap:9px;margin-top:clamp(26px,3.4vw,38px)}
+.rv-dot{
+  width:8px;height:8px;padding:0;border:0;border-radius:999px;cursor:pointer;
+  background:rgba(255,255,255,.22);transition:background .3s ease,width .3s ease;
 }
-.rv-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-.rv-stars{display:inline-flex;gap:2px}
-.rv-stars svg{width:15px;height:15px;color:var(--amber)}
-.rv-g{display:inline-flex;opacity:.85}
-.rv-g svg{width:17px;height:17px}
-.rv-card blockquote{
-  margin:0 0 18px;font-size:.94rem;line-height:1.6;color:#D8D0D4;flex:1;
+.rv-dot:hover{background:rgba(255,255,255,.45)}
+.rv-dot.is-on{width:24px;background:var(--grad)}
+.rv-dot:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+
+/* ---------- brands we work with ---------- */
+.brands{margin-top:clamp(44px,6vw,76px)}
+.brands-label{
+  margin:0 0 clamp(20px,2.6vw,28px);text-align:center;
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#7E767C;
 }
-.rv-card figcaption{border-top:1px solid rgba(255,255,255,.09);padding-top:14px}
-.rv-card figcaption b{
-  display:block;font-family:'Outfit',sans-serif;font-weight:700;color:#fff;font-size:.92rem;
+.bm{
+  position:relative;overflow:hidden;
+  -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
 }
-.rv-card figcaption span{display:block;font-size:.76rem;color:#8B8288;margin-top:3px}
-.rv-note{
-  margin:clamp(24px,3.4vw,34px) 0 0;text-align:center;font-size:.75rem;color:#6F686E;
+.bm-track{display:flex;align-items:center;width:max-content;animation:brandRun 42s linear infinite}
+.bm:hover .bm-track{animation-play-state:paused}
+@keyframes brandRun{to{transform:translateX(-50%)}}
+.bm-item{
+  flex:none;display:inline-flex;align-items:center;gap:10px;
+  padding:0 clamp(24px,3.4vw,46px);color:#fff;opacity:.42;
+  transition:opacity .3s ease;
+}
+.bm-item:hover{opacity:.85}
+.bm-item svg{width:26px;height:26px;fill:currentColor;flex:none}
+.bm-item b{
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:clamp(1rem,1.5vw,1.22rem);
+  letter-spacing:-.01em;white-space:nowrap;
+}
+@media (prefers-reduced-motion:reduce){
+  .bm-track{animation:none}
+  .rv-quote{transition:none}
 }
 
 /* ---------- reveal ---------- */
@@ -741,10 +789,10 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 <section class="statement">
   <div class="wrap">
     <div class="st-grid">
-      <h2 class="st-head rv">
-        <span><i>We are an</i></span>
-        <span><i class="accent">Award winning</i></span>
-        <span><i>Agency</i></span>
+      <h2 class="st-head rv lit" id="stHead">
+        <span><i><span class="w">We</span> <span class="w">are</span> <span class="w">an</span></i></span>
+        <span><i class="accent"><span class="w">Award</span> <span class="w">winning</span></i></span>
+        <span><i><span class="w">Agency</span></i></span>
       </h2>
 
       <ul class="awards rv">
@@ -779,7 +827,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 <section class="reviews">
   <div class="wrap">
     <div class="rv-head">
-      <h2>What our clients say</h2>
+      <h2 class="lit" id="revHead"><span class="w">What</span> <span class="w">our</span> <span class="w">clients</span> <span class="w">say.</span></h2>
       <a class="rv-badge" href="https://www.google.com/search?q=Digital+Movement+Melbourne"
          target="_blank" rel="noopener noreferrer">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg><b>5.0</b> · 102 Google reviews
@@ -787,110 +835,74 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     </div>
   </div>
 
-  <div class="rvm" aria-label="Client reviews">
-    <div class="rvm-track">
-      <!-- set 1 -->
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Our old site looked fine but did nothing. Three months after the rebuild we were turning work away. The difference was the SEO work underneath, not just the design.</blockquote>
-        <figcaption><b>Sarah C.</b><span>Plumbing &amp; gas, Melbourne</span></figcaption>
-      </figure>
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>They actually came out and photographed the crew instead of using stock images. That alone changed how customers see us.</blockquote>
-        <figcaption><b>James P.</b><span>Roofing, Central Coast</span></figcaption>
-      </figure>
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Fixed price, done in four weeks, no lock-in, and I own the lot. After two agencies who held my domain hostage, that was the whole reason I signed.</blockquote>
-        <figcaption><b>Anita N.</b><span>Electrical contracting, Sydney</span></figcaption>
-      </figure>
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>We were invisible on Google Maps outside our own suburb. Now we're first for most of the areas we actually service.</blockquote>
-        <figcaption><b>Dave R.</b><span>Concreting, Geelong</span></figcaption>
-      </figure>
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Straight answers, no jargon, and they pick up the phone. Rare in this industry.</blockquote>
-        <figcaption><b>Michelle T.</b><span>Building inspections, Brisbane</span></figcaption>
-      </figure>
-      <figure class="rv-card">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>The booking system alone paid for the site. Customers book themselves in now instead of ringing during jobs.</blockquote>
-        <figcaption><b>Tom H.</b><span>Carpentry, Newcastle</span></figcaption>
-      </figure>
-      <!-- set 2 — duplicate for a seamless loop -->
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Our old site looked fine but did nothing. Three months after the rebuild we were turning work away. The difference was the SEO work underneath, not just the design.</blockquote>
-        <figcaption><b>Sarah C.</b><span>Plumbing &amp; gas, Melbourne</span></figcaption>
-      </figure>
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>They actually came out and photographed the crew instead of using stock images. That alone changed how customers see us.</blockquote>
-        <figcaption><b>James P.</b><span>Roofing, Central Coast</span></figcaption>
-      </figure>
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Fixed price, done in four weeks, no lock-in, and I own the lot. After two agencies who held my domain hostage, that was the whole reason I signed.</blockquote>
-        <figcaption><b>Anita N.</b><span>Electrical contracting, Sydney</span></figcaption>
-      </figure>
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>We were invisible on Google Maps outside our own suburb. Now we're first for most of the areas we actually service.</blockquote>
-        <figcaption><b>Dave R.</b><span>Concreting, Geelong</span></figcaption>
-      </figure>
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>Straight answers, no jargon, and they pick up the phone. Rare in this industry.</blockquote>
-        <figcaption><b>Michelle T.</b><span>Building inspections, Brisbane</span></figcaption>
-      </figure>
-      <figure class="rv-card" aria-hidden="true">
-        <div class="rv-top">
-          <span class="rv-stars"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
-          <span class="rv-g"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.2a5.3 5.3 0 0 1-2.3 3.5v2.9h3.7c2.2-2 3.4-5 3.4-8.6z"/><path fill="#34A853" d="M12 24c3.1 0 5.7-1 7.6-2.8l-3.7-2.9c-1 .7-2.3 1.1-3.9 1.1-3 0-5.5-2-6.4-4.7H1.8v3a12 12 0 0 0 10.2 6.3z"/><path fill="#FBBC05" d="M5.6 14.7a7.2 7.2 0 0 1 0-4.6v-3H1.8a12 12 0 0 0 0 10.6l3.8-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.2.6 4.4 1.7l3.3-3.3A11.6 11.6 0 0 0 12 0 12 12 0 0 0 1.8 6.1l3.8 3C6.5 6.7 9 4.8 12 4.8z"/></svg></span>
-        </div>
-        <blockquote>The booking system alone paid for the site. Customers book themselves in now instead of ringing during jobs.</blockquote>
-        <figcaption><b>Tom H.</b><span>Carpentry, Newcastle</span></figcaption>
-      </figure>
+  <div class="wrap">
+    <div class="rv-stage" id="rvStage">
+        <figure class="rv-quote is-on">
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>Our old site looked fine but did nothing. Three months after the rebuild we were turning work away. The difference was the SEO work underneath, not just the design.</blockquote>
+          <figcaption><b>Sarah C.</b><span>Plumbing &amp; gas, Melbourne</span></figcaption>
+        </figure>
+        <figure class="rv-quote" hidden>
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>They actually came out and photographed the crew instead of using stock images. That alone changed how customers see us, and the enquiries that come through are far better qualified.</blockquote>
+          <figcaption><b>James P.</b><span>Roofing, Central Coast</span></figcaption>
+        </figure>
+        <figure class="rv-quote" hidden>
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>Fixed price, done in four weeks, no lock-in, and I own the lot. After two agencies who held my domain hostage, that was the whole reason I signed.</blockquote>
+          <figcaption><b>Anita N.</b><span>Electrical contracting, Sydney</span></figcaption>
+        </figure>
+        <figure class="rv-quote" hidden>
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>We were invisible on Google Maps outside our own suburb. Now we're first for most of the areas we actually service, and the phone hasn't stopped.</blockquote>
+          <figcaption><b>Dave R.</b><span>Concreting, Geelong</span></figcaption>
+        </figure>
+        <figure class="rv-quote" hidden>
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>Straight answers, no jargon, and they pick up the phone. Rare in this industry.</blockquote>
+          <figcaption><b>Michelle T.</b><span>Building inspections, Brisbane</span></figcaption>
+        </figure>
+        <figure class="rv-quote" hidden>
+          <span class="rv-stars" role="img" aria-label="Rated 5 out of 5"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="m12 2 3 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.9 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span>
+          <blockquote>The booking system alone paid for the site. Customers book themselves in now instead of ringing during jobs.</blockquote>
+          <figcaption><b>Tom H.</b><span>Carpentry, Newcastle</span></figcaption>
+        </figure>
+    </div>
+
+    <div class="rv-dots" role="tablist" aria-label="Choose a review">
+        <button type="button" class="rv-dot is-on" data-i="0" aria-label="Show review 1 of 6"></button>
+        <button type="button" class="rv-dot" data-i="1" aria-label="Show review 2 of 6"></button>
+        <button type="button" class="rv-dot" data-i="2" aria-label="Show review 3 of 6"></button>
+        <button type="button" class="rv-dot" data-i="3" aria-label="Show review 4 of 6"></button>
+        <button type="button" class="rv-dot" data-i="4" aria-label="Show review 5 of 6"></button>
+        <button type="button" class="rv-dot" data-i="5" aria-label="Show review 6 of 6"></button>
     </div>
   </div>
 
-  <div class="wrap"><p class="rv-note">Placeholder review copy pending the real listing.</p></div>
+  <!-- Placeholder brand marks — swap for real client logos. -->
+  <div class="brands">
+    <p class="brands-label">Brands we work with</p>
+    <div class="bm">
+      <div class="bm-track">
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 16 5l12 21H21l-5-9-5 9z"/></svg><b>Northbeam</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 5v22"/></svg><b>Kerrick Group</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="2"/><rect x="17" y="17" width="10" height="10" rx="2"/><rect x="17" y="5" width="10" height="10" rx="2" opacity=".55"/></svg><b>Vantage Build</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c6 5 9 9 9 13a9 9 0 0 1-18 0c0-4 3-8 9-13z"/></svg><b>Palm &amp; Co</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 27 10v12l-11 6-11-6V10z" fill="none" stroke="currentColor" stroke-width="3"/></svg><b>Studio Nine</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24c6-2 8-6 10-16 2 10 4 14 10 16z" /><path d="M4 27h24v3H4z"/></svg><b>Ironbark</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20 13 6l4 7 3-4 7 11z"/><path d="M4 24h24v3H4z"/></svg><b>Metro Lane</b></span>
+        <span class="bm-item"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="12" r="7"/><path d="M5 27c2-5 6-7 11-7s9 2 11 7z"/></svg><b>Bright Harbour</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26 16 5l12 21H21l-5-9-5 9z"/></svg><b>Northbeam</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" stroke-width="3"/><path d="M16 5v22"/></svg><b>Kerrick Group</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="10" height="10" rx="2"/><rect x="17" y="17" width="10" height="10" rx="2"/><rect x="17" y="5" width="10" height="10" rx="2" opacity=".55"/></svg><b>Vantage Build</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4c6 5 9 9 9 13a9 9 0 0 1-18 0c0-4 3-8 9-13z"/></svg><b>Palm &amp; Co</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4 27 10v12l-11 6-11-6V10z" fill="none" stroke="currentColor" stroke-width="3"/></svg><b>Studio Nine</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 24c6-2 8-6 10-16 2 10 4 14 10 16z" /><path d="M4 27h24v3H4z"/></svg><b>Ironbark</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 20 13 6l4 7 3-4 7 11z"/><path d="M4 24h24v3H4z"/></svg><b>Metro Lane</b></span>
+        <span class="bm-item" aria-hidden="true"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="12" r="7"/><path d="M5 27c2-5 6-7 11-7s9 2 11 7z"/></svg><b>Bright Harbour</b></span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <script>
@@ -945,6 +957,123 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     }, { rootMargin: '0px 0px -6% 0px', threshold: 0.06 });
     revealables.forEach(function (el) { io.observe(el); });
   }
+
+  /* ---------- headings light up word by word as they scroll through ---------- */
+  (function () {
+    var DIM = [58, 52, 56], LIT = [255, 255, 255], SCRIM = '27,11,17';
+
+    function wire(id) {
+      var head = document.getElementById(id);
+      if (!head) return;
+      var words = [].slice.call(head.querySelectorAll('.w'));
+      if (!words.length) return;
+
+      // an accent word is painted by a scrim over its gradient, not by colour
+      var kind = words.map(function (w) {
+        return w.closest && w.closest('.accent') ? 'scrim' : 'colour';
+      });
+
+      if (reduce) {
+        words.forEach(function (w, i) {
+          if (kind[i] === 'scrim') { w.style.backgroundImage = 'none'; }
+          else { w.style.color = '#fff'; }
+        });
+        return;
+      }
+
+      var ticking = false;
+
+      function paint() {
+        ticking = false;
+        var r = head.getBoundingClientRect();
+        var de = document.documentElement;
+        var vh = window.innerHeight || de.clientHeight;
+        // 0 while it is still low in the viewport, 1 once it has risen past the middle
+        var start = vh * 0.92, end = vh * 0.45;
+        var p = (start - r.top) / (start - end);
+        p = Math.max(0, Math.min(1, p));
+        // a heading close to the foot of the page never rises that far, so finish
+        // the run once there is nothing left to scroll
+        var maxY = de.scrollHeight - vh;
+        if (maxY > 0 && window.pageYOffset >= maxY - 2) p = 1;
+
+        var n = words.length;
+        for (var i = 0; i < n; i++) {
+          // each word gets its own slice of the run, overlapping slightly
+          var wp = p * (n + 0.6) - i;
+          wp = Math.max(0, Math.min(1, wp));
+          if (kind[i] === 'scrim') {
+            var a = (0.86 * (1 - wp)).toFixed(3);
+            var c = 'rgba(' + SCRIM + ',' + a + ')';
+            words[i].style.backgroundImage = 'linear-gradient(' + c + ',' + c + ')';
+          } else {
+            words[i].style.color = 'rgb(' +
+              Math.round(DIM[0] + (LIT[0] - DIM[0]) * wp) + ',' +
+              Math.round(DIM[1] + (LIT[1] - DIM[1]) * wp) + ',' +
+              Math.round(DIM[2] + (LIT[2] - DIM[2]) * wp) + ')';
+          }
+        }
+      }
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(paint);
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      paint();
+    }
+
+    wire('stHead');
+    wire('revHead');
+  })();
+
+  /* ---------- reviews: one quote at a time ---------- */
+  (function () {
+    var stage = document.getElementById('rvStage');
+    if (!stage) return;
+    var slides = [].slice.call(stage.querySelectorAll('.rv-quote'));
+    var dots = [].slice.call(document.querySelectorAll('.rv-dot'));
+    if (slides.length < 2) return;
+
+    var i = 0, timer = null, HOLD = 7000;
+
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        s.classList.toggle('is-on', k === i);
+        if (k === i) { s.removeAttribute('hidden'); } else { s.setAttribute('hidden', ''); }
+      });
+      dots.forEach(function (d, k) {
+        d.classList.toggle('is-on', k === i);
+        d.setAttribute('aria-selected', k === i ? 'true' : 'false');
+      });
+      fit();
+    }
+    function fit() {
+      stage.style.height = slides[i].offsetHeight + 'px';
+    }
+    function start() { if (!reduce) { stop(); timer = setInterval(function () { show(i + 1); }, HOLD); } }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () { show(+d.dataset.i); start(); });
+    });
+    stage.addEventListener('mouseenter', stop);
+    stage.addEventListener('mouseleave', start);
+    stage.addEventListener('focusin', stop);
+    stage.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) { stop(); } else { start(); }
+    });
+
+    show(0);
+    start();
+    window.addEventListener('resize', fit);
+    window.addEventListener('load', fit);
+    // the stage is sized from rendered text, so re-measure once webfonts land
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); }
+  })();
 
   /* ---------- form validation (demo only — wire to your handler) ---------- */
   var phoneOk = /^(\+?61|0)[\s-]?[2-478](?:[\s-]?\d){8}$/;
