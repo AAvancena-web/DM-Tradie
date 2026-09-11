@@ -127,14 +127,25 @@ header.site.stuck{
   background:var(--grad);color:#fff;box-shadow:0 10px 22px -12px rgba(242,64,79,.85)
 }
 .call-mini svg{width:18px;height:18px}
+/* flex, not grid: auto grid rows stretch to the button height, which pushed the
+   bars 15px apart and left the close-X unable to meet in the middle */
 .burger{
   width:42px;height:42px;border-radius:12px;border:1px solid rgba(255,255,255,.18);
-  background:rgba(255,255,255,.06);display:grid;place-items:center;gap:4px;cursor:pointer;padding:0;
+  background:rgba(255,255,255,.06);cursor:pointer;padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  transition:background .25s ease,border-color .25s ease;
 }
-.burger i{display:block;width:17px;height:2px;border-radius:2px;background:#fff;transition:transform .3s,opacity .2s}
-.burger.open i:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger:hover{background:rgba(255,255,255,.11);border-color:rgba(255,255,255,.32)}
+.burger:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.burger i{
+  display:block;width:20px;height:2px;border-radius:2px;background:#fff;
+  transition:transform .32s cubic-bezier(.2,.7,.3,1),opacity .18s ease;
+}
+/* 2px bar + 5px gap = 7px pitch, so the outer bars travel exactly that far */
+.burger.open i:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .burger.open i:nth-child(2){opacity:0}
-.burger.open i:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.burger.open i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.burger i{transition:none}}
 
 .drawer{
   position:fixed;inset:0;z-index:79;background:rgba(6,5,8,.7);backdrop-filter:blur(4px);
