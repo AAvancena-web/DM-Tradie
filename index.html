@@ -964,11 +964,15 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .contact{
   position:relative;border-top:1px solid rgba(21,6,9,.18);
   padding:clamp(52px,7.5vw,96px) 0 clamp(60px,8.5vw,112px);
-  background:linear-gradient(122deg,#FBAF43 0%,#F7833B 42%,#F2404F 100%);
+  /* orange leads, with dark pooling into the corners and along the foot where the
+     panels sit — the band behind the heading stays clear so its ink still reads */
+  background:
+    linear-gradient(180deg,rgba(6,5,8,0) 44%,rgba(6,5,8,.5) 74%,rgba(6,5,8,.95) 100%),
+    radial-gradient(30% 36% at -4% -6%,rgba(6,5,8,.58) 0%,rgba(6,5,8,0) 70%),
+    radial-gradient(26% 32% at 104% -2%,rgba(6,5,8,.46) 0%,rgba(6,5,8,0) 72%),
+    linear-gradient(122deg,#FBAF43 0%,#F7833B 42%,#F2404F 100%);
 }
-/* the panels are pulled in so the brand colour frames them instead of showing
-   as two thin strips at the edges */
-.contact .contact-grid{max-width:1120px;margin-left:auto;margin-right:auto}
+
 .contact .sec-head h2{--fill-dim:250,206,155;--fill-lit:21,6,9}
 .contact .sec-eyebrow{color:rgba(21,6,9,.72)}
 .contact .contact-panel{background:#14121A;border-color:rgba(255,255,255,.08)}
