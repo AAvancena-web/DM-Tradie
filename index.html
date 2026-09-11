@@ -488,7 +488,9 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
    ============================================================ */
 .reviews{
   position:relative;border-top:1px solid rgba(255,255,255,.07);
-  padding:clamp(48px,7vw,84px) 0;overflow:hidden;
+  /* no bottom padding: the brand strip is the last thing in here and carries its
+     own, so any padding below it shows as a bare band of the section ground */
+  padding:clamp(48px,7vw,84px) 0 0;overflow:hidden;
 }
 .sec-sub{
   max-width:62ch;margin:0;text-align:center;color:var(--soft);
