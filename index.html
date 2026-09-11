@@ -430,13 +430,13 @@ header.site.stuck{
 /* the script splits each word into letters and adds .is-split; until then the
    heading renders as plain white, so it is never dim with scripting off */
 .st-head.lit .w{display:inline-block}
-.st-head.is-split .c{color:#3A3438;transition:color .12s linear}
+.st-head.is-split .c{color:#3A3438;transition:color .26s linear}
 /* the accent line keeps its gradient; a scrim clipped to each letter dims it
    instead, so the sweep runs across the whole phrase, not per letter */
 .st-head.is-split i.accent .c{
   color:transparent;-webkit-background-clip:text;background-clip:text;
   background-image:linear-gradient(rgba(27,11,17,.86),rgba(27,11,17,.86));
-  transition:background-image .12s linear;
+  transition:background-image .26s linear;
 }
 @media (prefers-reduced-motion:reduce){
   .st-head.is-split .c{color:#fff;transition:none}
@@ -478,6 +478,10 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   position:relative;background:#0A090C;border-top:1px solid rgba(255,255,255,.07);
   padding:clamp(48px,7vw,84px) 0;overflow:hidden;
 }
+.sec-sub{
+  max-width:62ch;margin:0;text-align:center;color:var(--soft);
+  font-size:clamp(.98rem,1.35vw,1.14rem);line-height:1.62;
+}
 .sec-head{
   display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2.4vw,22px);
   margin:0 0 clamp(28px,4vw,44px);text-align:center;
@@ -485,12 +489,12 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .sec-head h2{
   font-family:'Anton','Arial Narrow',Impact,'Outfit',sans-serif;text-transform:uppercase;
   font-weight:800;font-synthesis-weight:none;
-  color:#fff;margin:0;font-size:clamp(1.9rem,6.6vw,4.1rem);
-  line-height:1.04;letter-spacing:-.005em;
+  color:#fff;margin:0;font-size:clamp(2.3rem,9.4vw,6.6rem);
+  line-height:1.06;letter-spacing:-.005em;
 }
 /* letters light from dim to white as the section scrolls past (see script) */
 .sec-head h2.lit .w{display:inline-block}
-.sec-head h2.is-split .c{color:#3A3438;transition:color .12s linear}
+.sec-head h2.is-split .c{color:#3A3438;transition:color .26s linear}
 @media (prefers-reduced-motion:reduce){.sec-head h2.is-split .c{color:#fff;transition:none}}
 .rv-badge{
   display:inline-flex;align-items:center;gap:8px;
@@ -504,7 +508,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 
 /* ---------- one review at a time, centred ---------- */
 /* the stage hugs whichever quote is showing, so short ones leave no hole */
-.rv-stage{display:grid;align-items:start;max-width:60ch;margin:0 auto;
+.rv-stage{display:grid;align-items:start;max-width:min(100%,1000px);margin:0 auto;
   overflow:hidden;transition:height .45s cubic-bezier(.2,.7,.3,1)}
 @media (prefers-reduced-motion:reduce){.rv-stage{transition:none}}
 .rv-quote{
@@ -537,10 +541,14 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .rv-dot:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
 
 /* ---------- brands we work with ---------- */
-.brands{margin-top:clamp(44px,6vw,76px)}
+.brands{
+  margin-top:clamp(48px,6vw,80px);
+  background:var(--grad);
+  padding:clamp(30px,4vw,48px) 0 clamp(34px,4.4vw,54px);
+}
 .brands-label{
   margin:0 0 clamp(20px,2.6vw,28px);text-align:center;
-  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:#7E767C;
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(10,3,6,.9);
 }
 .bm{
   position:relative;overflow:hidden;
@@ -550,12 +558,13 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 .bm-track{display:flex;align-items:center;width:max-content;animation:brandRun 42s linear infinite}
 .bm:hover .bm-track{animation-play-state:paused}
 @keyframes brandRun{to{transform:translateX(-50%)}}
+/* dark ink on the orange band, where white would wash out */
 .bm-item{
   flex:none;display:inline-flex;align-items:center;gap:10px;
-  padding:0 clamp(24px,3.4vw,46px);color:#fff;opacity:.42;
-  transition:opacity .3s ease;
+  padding:0 clamp(24px,3.4vw,46px);color:#0A0306;
+  transition:transform .3s cubic-bezier(.2,.7,.3,1);
 }
-.bm-item:hover{opacity:.85}
+.bm-item:hover{transform:translateY(-2px)}
 .bm-item svg{width:26px;height:26px;fill:currentColor;flex:none}
 .bm-item b{
   font-family:'Outfit',sans-serif;font-weight:600;font-size:clamp(1rem,1.5vw,1.22rem);
@@ -563,6 +572,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 }
 @media (prefers-reduced-motion:reduce){
   .bm-track{animation:none}
+  .bm-item{transition:none}
   .rv-quote{transition:none}
 }
 
@@ -658,6 +668,67 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 /* sized from width here so a slice of the next card shows and invites the swipe */
 .wwd-stick.is-swipe .wd-card{width:min(78vw,320px);height:auto;scroll-snap-align:center}
 @media (prefers-reduced-motion:reduce){.wd-card{transition:none}}
+
+/* ---------- selected work: two panels per row ---------- */
+.work{
+  position:relative;background:#0A090C;border-top:1px solid rgba(255,255,255,.07);
+  padding:clamp(48px,7vw,84px) 0 clamp(56px,8vw,104px);
+}
+.work-grid{
+  display:grid;gap:clamp(22px,2.8vw,38px);
+  grid-template-columns:1fr;
+}
+@media (min-width:760px){.work-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+.pj{display:block;color:inherit}
+.pj-panel{
+  --p1:#FBAF43;--p2:#F2404F;
+  position:relative;display:grid;place-items:center;overflow:hidden;
+  aspect-ratio:16/10;border-radius:var(--r-lg);
+  background:linear-gradient(140deg,var(--p1) 0%,var(--p2) 100%);
+}
+/* a light wash off one corner so the flat field has some depth */
+.pj-panel::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(90% 70% at 78% 12%,rgba(255,255,255,.26) 0%,rgba(255,255,255,0) 62%),
+    repeating-linear-gradient(118deg,rgba(255,255,255,.05) 0 2px,rgba(255,255,255,0) 2px 30px);
+}
+.pj-mark{
+  position:relative;display:flex;align-items:center;gap:clamp(12px,1.4vw,20px);
+  padding:0 8%;transition:transform .5s cubic-bezier(.2,.7,.3,1);
+}
+.pj:hover .pj-mark{transform:scale(1.04)}
+.pj-mark svg{
+  width:clamp(34px,4vw,56px);height:auto;flex:none;
+  fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;
+}
+.pj-mark b{
+  font-family:'Outfit',sans-serif;font-weight:700;color:#fff;
+  font-size:clamp(1.35rem,3vw,2.5rem);letter-spacing:.02em;text-transform:uppercase;
+  line-height:1;white-space:nowrap;
+}
+.pj-foot{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:14px 4px 0;
+}
+.pj-name{
+  font-family:'Outfit',sans-serif;font-weight:700;color:#fff;
+  font-size:clamp(.98rem,1.2vw,1.1rem);
+}
+.pj-line{color:#8B8288;font-size:clamp(.88rem,1.05vw,.98rem);margin-right:auto}
+.pj-tags{display:flex;gap:7px;flex-wrap:wrap}
+.pj-tag{
+  border:1px solid rgba(255,255,255,.2);border-radius:5px;padding:4px 9px;
+  font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:#C9C1C6;
+  transition:border-color .3s ease,color .3s ease;
+}
+.pj:hover .pj-tag{border-color:rgba(251,175,67,.55);color:#fff}
+.pj:focus-visible{outline:2px solid var(--amber);outline-offset:6px;border-radius:var(--r-lg)}
+.work-note{
+  margin:clamp(30px,4vw,44px) 0 0;text-align:center;font-size:.75rem;color:#6F686E;
+}
+@media (prefers-reduced-motion:reduce){.pj-mark{transition:none}}
 
 /* ---------- reveal ---------- */
 .rv{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
@@ -1006,6 +1077,9 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   <div class="wrap">
     <div class="sec-head">
       <h2 class="lit" id="wwdHead"><span class="w">What</span> <span class="w">we</span> <span class="w">do.</span></h2>
+      <p class="sec-sub rv">Websites, search, ads, brand and content — the whole pipeline that turns
+        someone looking for a tradie into a booked job. Take one piece or the lot; every part is built
+        to feed the next.</p>
     </div>
   </div>
 
@@ -1077,6 +1151,85 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   </div>
 </section>
 
+<!-- ================= SELECTED WORK =================
+     NOTE: placeholder projects. Swap the panels for real screenshots
+     and the names for real clients before this goes live.
+     ============================================================ -->
+<section class="work" id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="lit" id="wrkHead"><span class="w">Selected</span> <span class="w">work.</span></h2>
+      <p class="sec-sub rv">A cross-section of trade businesses we have built and marketed for —
+        new sites, rebrands and the campaigns that keep their phones going.</p>
+    </div>
+
+    <div class="work-grid">
+      <a class="pj rv" href="#home" aria-label="Northbeam — Plumbing &amp; gas, Melbourne">
+        <div class="pj-panel" style="--p1:#2E7CF6;--p2:#1B4FCC">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M10 50V14l22 26V14"/><path d="M44 14v36M44 32h12"/></svg><b>Northbeam</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Northbeam</span>
+          <span class="pj-line">Plumbing &amp; gas, Melbourne</span>
+          <span class="pj-tags"><span class="pj-tag">Website</span><span class="pj-tag">Local SEO</span></span>
+        </div>
+      </a>
+      <a class="pj rv" href="#home" aria-label="Kerrick Group — Commercial builders, Sydney">
+        <div class="pj-panel" style="--p1:#FBAF43;--p2:#F2604A">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="22"/><path d="M32 10v44M10 32h44"/></svg><b>Kerrick Group</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Kerrick Group</span>
+          <span class="pj-line">Commercial builders, Sydney</span>
+          <span class="pj-tags"><span class="pj-tag">Branding</span><span class="pj-tag">Website</span></span>
+        </div>
+      </a>
+      <a class="pj rv" href="#home" aria-label="Vantage Build — New homes, Geelong">
+        <div class="pj-panel" style="--p1:#1C1A20;--p2:#3A343E">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 50 32 12l24 38z"/><path d="M20 50l12-19 12 19"/></svg><b>Vantage Build</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Vantage Build</span>
+          <span class="pj-line">New homes, Geelong</span>
+          <span class="pj-tags"><span class="pj-tag">Website</span><span class="pj-tag">Google Ads</span></span>
+        </div>
+      </a>
+      <a class="pj rv" href="#home" aria-label="Palm & Co — Landscaping, Gold Coast">
+        <div class="pj-panel" style="--p1:#E04B62;--p2:#7A1E63">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 54c0-16 6-26 18-32-14-2-24 4-28 14-4-8-10-11-18-10 10 6 14 16 14 28z"/></svg><b>Palm &amp; Co</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Palm &amp; Co</span>
+          <span class="pj-line">Landscaping, Gold Coast</span>
+          <span class="pj-tags"><span class="pj-tag">Branding</span><span class="pj-tag">Content</span></span>
+        </div>
+      </a>
+      <a class="pj rv" href="#home" aria-label="Studio Nine — Bathroom renovations, Perth">
+        <div class="pj-panel" style="--p1:#F7A23B;--p2:#C6293F">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><rect x="10" y="10" width="44" height="44" rx="10"/><path d="M22 32h20M32 22v20"/></svg><b>Studio Nine</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Studio Nine</span>
+          <span class="pj-line">Bathroom renovations, Perth</span>
+          <span class="pj-tags"><span class="pj-tag">Website</span><span class="pj-tag">Meta Ads</span></span>
+        </div>
+      </a>
+      <a class="pj rv" href="#home" aria-label="Ironbark — Roofing, Central Coast">
+        <div class="pj-panel" style="--p1:#20323A;--p2:#0E1A20">
+          <span class="pj-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 8 50 24 32 40 14 24z"/><path d="M32 40v16M22 56h20"/></svg><b>Ironbark</b></span>
+        </div>
+        <div class="pj-foot">
+          <span class="pj-name">Ironbark</span>
+          <span class="pj-line">Roofing, Central Coast</span>
+          <span class="pj-tags"><span class="pj-tag">Branding</span><span class="pj-tag">Website</span><span class="pj-tag">SEO</span></span>
+        </div>
+      </a>
+    </div>
+
+    <p class="work-note">Placeholder projects — real case studies to come.</p>
+  </div>
+</section>
+
 <script>
 (function () {
   'use strict';
@@ -1134,7 +1287,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   (function () {
     var DIM = [58, 52, 56], LIT = [255, 255, 255], SCRIM = '27,11,17';
     // how many letters are mid-fade at once — higher is a softer, wider sweep
-    var SPREAD = 3.5;
+    var SPREAD = 5.5;
 
     function wire(id) {
       var head = document.getElementById(id);
@@ -1179,7 +1332,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
         var de = document.documentElement;
         var vh = window.innerHeight || de.clientHeight;
         // 0 while it is still low in the viewport, 1 once it has risen past the middle
-        var start = vh * 0.92, end = vh * 0.45;
+        var start = vh * 0.95, end = vh * 0.16;
         var p = (start - r.top) / (start - end);
         p = Math.max(0, Math.min(1, p));
         // a heading close to the foot of the page never rises that far, so finish
@@ -1217,6 +1370,7 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     wire('stHead');
     wire('revHead');
     wire('wwdHead');
+    wire('wrkHead');
   })();
 
   /* ---------- what we do: the card row rides left as you scroll down ---------- */
