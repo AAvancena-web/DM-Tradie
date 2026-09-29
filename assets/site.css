@@ -1109,9 +1109,17 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
     #0A090C;
 }
 .page-head .wrap{position:relative;z-index:1}
-.page-head .sec-sub{margin-inline:auto}
+/* the header runs two up beside the banner form, so its title block reads left
+   rather than centred the way a mid-page section title does */
+.page-head .sec-head{align-items:flex-start;text-align:left}
+/* the title block is much shorter than the form beside it, so centre it rather
+   than leaving it stranded at the top */
+@media (min-width:900px){.page-head .ph-copy{display:flex;flex-direction:column;justify-content:center}}
+.page-head .sec-head h2{font-size:clamp(2rem,5.8vw,4.4rem)}
+.page-head .sec-eyebrow,
+.page-head .sec-sub{margin-inline:0;text-align:left}
 .crumbs{
-  display:flex;justify-content:center;gap:8px;align-items:center;
+  display:flex;gap:8px;align-items:center;
   margin:clamp(18px,2.4vw,26px) 0 0;font-size:.78rem;color:#8B8288;
 }
 .crumbs a{color:#B3A9AF}
@@ -1255,15 +1263,6 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
 }
 @media (min-width:900px){
   :root{--nav-h:80px}
-  .burger,.call-mini{display:none}
-  .nav-links{display:flex;align-items:center;gap:6px}
-  .nav-links a{
-    padding:9px 15px;border-radius:999px;font-weight:600;font-size:.93rem;color:rgba(255,255,255,.78);
-    transition:background .2s,color .2s
-  }
-  .nav-links a:hover{background:rgba(255,255,255,.08);color:#fff}
-  .nav-links a.active{color:var(--amber)}
-  .nav-cta{display:inline-flex}
   .brand-logo{height:29px}
   .hero{padding-top:calc(var(--nav-h) + 66px);padding-bottom:clamp(70px,8vw,110px)}
   .hero-inner{grid-template-columns:1.08fr .92fr;gap:56px;align-items:stretch}
@@ -1271,6 +1270,24 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   .hero-form{display:flex;flex-direction:column;justify-content:center}
   .hero-inner > *{min-width:0}
   .hero-form{padding:30px 28px}
+}
+
+/* the full menu only appears once six items and the button genuinely fit;
+   below this the burger handles it */
+@media (min-width:1080px){
+  .burger,.call-mini{display:none}
+  .nav-links{display:flex;align-items:center;gap:4px}
+  .nav-links a{
+    padding:9px 13px;border-radius:999px;font-weight:600;font-size:.92rem;color:rgba(255,255,255,.78);
+    transition:background .2s,color .2s;white-space:nowrap;
+  }
+  .nav-links a:hover{background:rgba(255,255,255,.08);color:#fff}
+  .nav-links a.active{color:var(--amber)}
+  .nav-cta{display:inline-flex}
+}
+@media (min-width:1280px){
+  .nav-links{gap:6px}
+  .nav-links a{padding:9px 16px;font-size:.93rem}
 }
 @media (min-width:1200px){
   :root{--wrap:1440px;--pad:32px}
