@@ -43,7 +43,20 @@
       <div class="nav-links" id="navLinks">
         <a href="../index.html">Home</a>
         <a href="../about.html">About</a>
-        <a href="../services.html" class="active">Services</a>
+        <div class="nav-item" data-sub>
+          <a href="../services.html" class="active">Services</a>
+          <button class="nav-caret" type="button" aria-expanded="false" aria-controls="svcMenu"
+                  aria-label="Show services menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+          <div class="nav-sub" id="svcMenu">
+            <a href="../services/web-design.html">Web design &amp; development<i>01</i></a>
+            <a href="../services/local-seo.html">Local SEO<i>02</i></a>
+            <a href="../services/google-ads.html" aria-current="page">Google Ads<i>03</i></a>
+            <a href="../services/meta-ads.html">Meta ads<i>04</i></a>
+            <a href="../services/branding.html">Branding &amp; identity<i>05</i></a>
+            <a href="../services/content-photography.html">Content &amp; photography<i>06</i></a>
+            <a class="nav-sub-all" href="../services.html">All services<span aria-hidden="true">&rarr;</span></a>
+          </div>
+        </div>
         <a href="../work.html">Work</a>
         <a href="../faq.html">FAQ</a>
         <a href="../contact.html">Contact</a>
@@ -68,7 +81,19 @@
   <div class="drawer-panel">
     <a class="dl" href="../index.html">Home <span>01</span></a>
     <a class="dl" href="../about.html">About <span>02</span></a>
-    <a class="dl" href="../services.html">Services <span>03</span></a>
+    <div class="dl-row" data-drawer-sub>
+      <a class="dl" href="../services.html">Services <span>03</span></a>
+      <button class="dl-caret" type="button" aria-expanded="false" aria-controls="drawerSvc"
+              aria-label="Show services"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+    </div>
+    <div class="drawer-sub" id="drawerSvc"><div>
+        <a href="../services/web-design.html">Web design &amp; development</a>
+        <a href="../services/local-seo.html">Local SEO</a>
+        <a href="../services/google-ads.html" aria-current="page">Google Ads</a>
+        <a href="../services/meta-ads.html">Meta ads</a>
+        <a href="../services/branding.html">Branding &amp; identity</a>
+        <a href="../services/content-photography.html">Content &amp; photography</a>
+    </div></div>
     <a class="dl" href="../work.html">Work <span>04</span></a>
     <a class="dl" href="../faq.html">FAQ <span>05</span></a>
     <a class="dl" href="../contact.html">Contact <span>06</span></a>

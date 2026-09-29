@@ -13,11 +13,76 @@
   }
   burger.addEventListener('click', function () { setDrawer(!drawer.classList.contains('open')); });
   drawer.addEventListener('click', function (e) {
+    // the caret only expands the submenu; it must not close the drawer
+    if (e.target.closest('.dl-caret')) return;
     if (e.target === drawer || e.target.closest('a')) setDrawer(false);
   });
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && drawer.classList.contains('open')) setDrawer(false);
   });
+
+  /* ---------- services dropdown ---------- */
+  (function () {
+    var item = document.querySelector('.nav-item[data-sub]');
+    if (!item) return;
+    var caret = item.querySelector('.nav-caret');
+    var shutTimer = null;
+    // hover opens it loosely; the caret pins it, so a click while hovering does
+    // not read as "close" the way a plain toggle would
+    var pinned = false;
+
+    function set(open) {
+      clearTimeout(shutTimer);
+      item.classList.toggle('open', open);
+      if (caret) caret.setAttribute('aria-expanded', String(open));
+    }
+    function unpin() { pinned = false; set(false); }
+    // hover is a convenience on pointer devices; the caret is the real control
+    function hoverable() {
+      return window.matchMedia('(min-width: 1080px) and (hover: hover)').matches;
+    }
+    item.addEventListener('mouseenter', function () { if (hoverable()) set(true); });
+    item.addEventListener('mouseleave', function () {
+      if (!hoverable() || pinned) return;
+      // a short grace period, so crossing the gap to the panel does not shut it
+      shutTimer = setTimeout(function () { set(false); }, 140);
+    });
+    if (caret) {
+      caret.addEventListener('click', function (e) {
+        e.preventDefault();
+        pinned = !pinned;
+        set(pinned);
+      });
+    }
+    // keyboard: the panel closes once focus leaves the whole group
+    item.addEventListener('focusout', function (e) {
+      if (!pinned && !item.contains(e.relatedTarget)) set(false);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && item.classList.contains('open')) {
+        unpin();
+        if (caret) caret.focus();
+      }
+    });
+    document.addEventListener('click', function (e) {
+      if (!item.contains(e.target)) unpin();
+    });
+  })();
+
+  /* ---------- drawer submenu ---------- */
+  (function () {
+    var row = document.querySelector('.dl-row[data-drawer-sub]');
+    if (!row) return;
+    var caret = row.querySelector('.dl-caret');
+    if (!caret) return;
+    caret.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = !row.classList.contains('open');
+      row.classList.toggle('open', open);
+      caret.setAttribute('aria-expanded', String(open));
+    });
+  })();
 
   /* ---------- header solidifies once past the banner ---------- */
   var header = document.getElementById('siteHeader');
