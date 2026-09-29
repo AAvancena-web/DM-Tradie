@@ -637,26 +637,33 @@ a.awards-link:hover .aw-meta{color:#B3A9AF}
   border-radius:999px;padding:6px 12px;
   font-size:.63rem;letter-spacing:.11em;text-transform:uppercase;color:#fff;
 }
+/* every block below reserves a fixed number of lines, so the six cards line up
+   with each other however long the individual wording is */
 .wd-title{
   margin:0;font-family:'Anton','Arial Narrow',Impact,'Outfit',sans-serif;
   font-weight:800;font-synthesis-weight:none;text-transform:uppercase;
   font-size:clamp(1.25rem,2.1vw,1.92rem);line-height:1.04;letter-spacing:-.005em;color:#fff;
   text-wrap:balance;
+  min-height:calc(2 * 1.04em);display:flex;align-items:flex-end;
 }
 .wd-lede{
-  margin:9px 0 clamp(10px,1.1vw,14px);
+  margin:9px 0 clamp(10px,1.1vw,14px);min-height:1.3em;
   font-family:'Outfit',sans-serif;font-weight:600;
   font-size:clamp(.86rem,1.05vw,.98rem);line-height:1.3;color:rgba(255,255,255,.92);
 }
 .wd-points{
   list-style:none;margin:0 0 clamp(14px,1.4vw,18px);padding:0;
   display:flex;flex-wrap:wrap;gap:6px;
+  min-height:26px;align-content:flex-end;
 }
 .wd-points li{
   border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:4px 10px;
   font-size:.66rem;letter-spacing:.03em;color:rgba(255,255,255,.88);white-space:nowrap;
 }
-.wd-desc{margin:0 0 clamp(12px,1.2vw,15px);font-size:.83rem;line-height:1.5;color:rgba(255,255,255,.8)}
+.wd-desc{
+  margin:0 0 clamp(12px,1.2vw,15px);font-size:.83rem;line-height:1.5;color:rgba(255,255,255,.8);
+  min-height:calc(2 * 1.5em);
+}
 .wd-link{
   display:inline-flex;align-items:center;gap:7px;
   font-size:.71rem;letter-spacing:.13em;text-transform:uppercase;
