@@ -1,0 +1,5 @@
+# DM Tradies
+User-agent: *
+Allow: /
+
+Sitemap: https://dmtradies.com.au/sitemap.xml
